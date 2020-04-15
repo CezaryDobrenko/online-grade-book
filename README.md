@@ -1,0 +1,2 @@
+# PracaDyplomowa
+Praca dyplomowa
