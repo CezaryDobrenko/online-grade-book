@@ -1,18 +1,8 @@
 # PracaDyplomowa
 Praca dyplomowa - temat pracy "Dziennik ucznia"
 
-1) Krótki opis pracy systemu:
-  In progress
-2) Schemat bazy danych:
-   In progress
-3) DPU:
-  In progress
-4) Scenariusze do DPU:
-  In progress
-5) Technologie:
-  Frontend:
-  -Fortran
-  Backend:
-  -Prolog
-  Baza danych
-  -baza.txt
+1) Krótki opis pracy systemu:Done
+2) Schemat bazy danych:Done
+3) DPU:In progress
+4) Scenariusze do DPU:In progress
+5) Technologie: Done
