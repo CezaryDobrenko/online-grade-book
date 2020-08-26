@@ -5,5 +5,5 @@ $config['key'] = "owthub"; // secret key
 $config['iss'] = "http://127.0.0.1/dashboard/codeigniter-jwt/"; // domain name
 $config['aud'] = "http://127.0.0.1/dashboard/codeigniter-jwt/"; // domain name
 $config['iat'] = time(); // current time
-$config['nbf'] = $config['iat'] + 30; // not using before 30 sec
-$config['exp'] = $config['iat'] + 1*60; // valid for 1 min after generate
+$config['nbf'] = $config['iat']; // when generate its ready
+$config['exp'] = $config['iat'] + 1*36000; // valid for 10 h after generate

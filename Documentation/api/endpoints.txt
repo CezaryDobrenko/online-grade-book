@@ -1,0 +1,203 @@
+API INFORMATION && DETAILS
+
+Dummy accounts:
+
+level 3: administrator
+
+    "teacher_email": "hakerbonzo3@op.pl",
+    "teacher_password": "123456"
+
+level 2: nauczyciel/dyrektor
+
+    "teacher_email": "nauczyciel@gmail.com",
+    "teacher_password": "123456",
+
+    "teacher_email": "dyrektor@gmail.com",
+    "teacher_password": "123456"
+
+level 1: student/parent
+
+    "student_email": "student@gmail.com",
+    "student_password": "123456"
+
+    "parent_email": "rodzic@gmail.com",
+    "parent_password": "123456"
+
+level 0: 
+
+    does not require account
+
+System security:
+Anti xss countermeasures
+Anti csrf countermeasures 
+Anti ssrf countermeasures 
+Anti sql injection countermeasures 
+Anti code tags injection countermeasures 
+
+Access level:
+Currently api have 4 permission levels:
+level 3: "Administrator" grant access to administrator endpoints
+level 2: "Dyrektor" or "Nauczyciel" grant access to teacher endpoints
+level 1: "Rodzic" or "Uczeń" grant access to user endpoints
+level 0: Every unlogged user are granted access to login endpoints
+
+
+===================================================
+Administrator endpoints
+
+Requirements:
+Correctly loggin to system with valid data
+Acount with permision level: 3
+
+Purpose:
+Managing data and accounts stored in system
+Ensuring stability and accessibility of system
+===================================================
+
+manage_absence:	
+V - CREATE		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_absence/create_absence)			method(POST)
+V - READ		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_absence/read_absence)				method(GET)
+V - READ SINGLE		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_absence/read_single_absence)			method(GET)
+V - UPDATE		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_absence/update_absence)			method(PUT)
+V - DELETE		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_absence/delete_absence)			method(DELETE)
+manage_grades:
+V - CREATE		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_grades/create_grade)				method(POST)
+V - READ		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_grades/read_grade)				method(GET)
+V - READ SINGLE		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_grades/read_single_grade)			method(GET)	
+V - UPDATE		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_grades/update_grade)				method(PUT)	
+V - DELETE		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_grades/delete_grade)				method(DELETE)		
+manage_grades_category:
+V - CREATE 		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_grades_category/create_grades_category)	method(POST)		
+V - READ		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_grades_category/read_grades_category)		method(GET)		
+V - READ SINGLE		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_grades_category/read_single_grades_category)	method(GET)		
+V - UPDATE		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_grades_category/update_grades_category)	method(PUT)		
+V - DELETE		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_grades_category/delete_grades_category)	method(DELETE)		
+manage_group:
+V - CREATE		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_group/create_group)				method(POST)		
+V - READ		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_group/read_group)				method(GET)		
+V - READ SINGLE		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_group/read_single_group)			method(GET)		
+V - UPDATE		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_group/update_group)				method(PUT)		
+V - DELETE		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_group/delete_group)				method(DELETE)		
+manage_lesson:
+V - CREATE		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_lesson/create_lesson)				method(POST)		
+V - READ		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_lesson/read_lesson)				method(GET)		
+V - READ SINGLE		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_lesson/read_single_lesson)			method(GET)		
+V - UPDATE		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_lesson/update_lesson)				method(PUT)		
+V - DELETE		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_lesson/delete_lesson)				method(DELETE)		
+manage_note:
+V - CREATE		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_note/create_note)				method(POST)		
+V - READ		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_note/read_note)				method(GET)		
+V - READ SINGLE		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_note/read_single_note)				method(GET)		
+V - UPDATE		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_note/update_note)				method(PUT)		
+V - DELETE		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_note/delete_note)				method(DELETE)		
+manage_parent:
+V - CREATE		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_parent/create_parent)				method(POST)		
+V - READ		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_parent/read_parent)				method(GET)		
+V - READ SINGLE		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_parent/read_single_parent)			method(GET)		
+V - UPDATE		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_parent/update_parent)				method(PUT)		
+V - DELETE		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_parent/delete_parent)				method(DELETE)		
+manage_student:	
+V - CREATE		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_student/create_student)			method(POST)		
+V - READ		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_student/read_student)				method(GET)		
+V - READ SINGLE		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_student/read_single_student)			method(GET)		
+V - UPDATE		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_student/update_student)			method(PUT)		
+V - DELETE		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_student/delete_student)			method(DELETE)
+manage_subject:
+V - CREATE		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_subject/create_subject)			method(POST)		
+V - READ		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_subject/read_subject)				method(GET)		
+V - READ SINGLE		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_subject/read_single_subject)			method(GET)		
+V - UPDATE		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_subject/update_subject)			method(PUT)		
+V - DELETE		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_subject/delete_subject)			method(DELETE)		
+manage_teacher:
+V - CREATE		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_teacher/create_teacher)			method(POST)		
+V - READ		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_teacher/read_teacher)				method(GET)		
+V - READ SINGLE		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_teacher/read_single_teacher)			method(GET)		
+V - UPDATE		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_teacher/update_teacher)			method(PUT)		
+V - DELETE		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_teacher/delete_teacher)			method(DELETE)		
+manage_teacher_subject:
+V - CREATE		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_teacher_subject/create_teacher_subject)	method(POST)		
+V - READ		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_teacher_subject/read_teacher_subject)		method(GET)		
+V - READ SINGLE		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_teacher_subject/read_single_teacher_subject)	method(GET)		
+V - UPDATE		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_teacher_subject/update_teacher_subject)	method(PUT)		
+V - DELETE		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_teacher_subject/delete_teacher_subject)	method(DELETE)		
+
+
+
+=======================================
+Teacher endpoints
+
+Requirements:
+Correctly loggin to system with valid data
+Acount with permision level: 2
+
+Purpose:
+Providing data to system (grades, notes, absence)
+=======================================
+
+staf_grade:
+X - CREATE		reference_link()			method(POST)		
+V - READ		reference_link()			method(GET)		
+V - READ SINGLE		reference_link()			method(GET)		
+X - UPDATE		reference_link()			method(PUT)		
+X - DELETE		reference_link()			method(DELETE)	
+staf_absence:
+X - CREATE		reference_link()			method(POST)		
+V - READ		reference_link()			method(GET)		
+V - READ SINGLE		reference_link()			method(GET)		
+X - UPDATE		reference_link()			method(PUT)		
+X - DELETE		reference_link()			method(DELETE)	
+staf_notes:
+X - CREATE		reference_link()			method(POST)		
+V - READ		reference_link()			method(GET)		
+V - READ SINGLE		reference_link()			method(GET)		
+X - UPDATE		reference_link()			method(PUT)		
+X - DELETE		reference_link()			method(DELETE)	
+staf_subject:
+V - READ		reference_link()			method(GET)		
+
+
+
+=======================================
+Student/Parent endpoints
+
+Requirements:
+Correctly loggin to system with valid data
+Acount with permision level: 1
+
+Purpose:
+Monitoring system accessibility and data
+Reporting any issues or mistakes to administrator
+=======================================
+
+personal_subject:
+V - READ		reference_link(APPATCH/backend/index.php/class_register_api/user/personal_subject/read_subject)				method(GET)
+personal_grade:
+V - READ		reference_link(APPATCH/backend/index.php/class_register_api/user/personal_grade/read_grade)				method(GET)
+V - READ SINGLE		reference_link(APPATCH/backend/index.php/class_register_api/user/personal_grade/read_single_grade)			method(GET)
+personal_absence:
+V - READ		reference_link(APPATCH/backend/index.php/class_register_api/user/personal_absence/read_grade)				method(GET)
+V - READ SINGLE		reference_link(APPATCH/backend/index.php/class_register_api/user/personal_absence/read_single_grade)			method(GET)
+personal_note:
+V - READ		reference_link(APPATCH/backend/index.php/class_register_api/user/personal_note/read_grade)				method(GET)
+V - READ SINGLE		reference_link(APPATCH/backend/index.php/class_register_api/user/personal_note/read_single_grade)			method(GET)
+
+
+
+=======================================
+Login endpoints
+
+Requirements:
+permision level: 0
+
+Purpose:
+Autorize user and if correct data login into system
+=======================================
+
+parent_login
+V - LOGIN		reference_link(APPATCH/backend/index.php/class_register_api/login/parent_login/parent_login)				method(GET)	
+student_login
+V - LOGIN		reference_link(APPATCH/backend/index.php/class_register_api/login/student_login/student_login)				method(GET)	
+teacher_login	
+V - LOGIN		reference_link(APPATCH/backend/index.php/class_register_api/login/teacher_login/teacher_login)				method(GET)	
+
+

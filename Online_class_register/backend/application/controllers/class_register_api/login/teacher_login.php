@@ -42,28 +42,6 @@ class teacher_login extends REST_Controller{
             $this->response(array("status" => 0,"message" => "Login details needed"), parent::HTTP_NOT_FOUND);
         }
     }
-
-        //validate token method
-        public function test_get(){
-
-            $headers = $this->input->request_headers();
-    
-            $token = $headers['Authorization'];
-    
-            try{
-    
-                $isAuth = authorization::validateToken($token);
-    
-                if($isAuth){
-                    $decoded = JWT::decode($token, parent::JWT_KEY, array('HS256'));
-                    $this->response(array("status" => 1,"message" => "Access granted", "token decoded" => $decoded->data->teacher_role), parent::HTTP_OK);
-                } else {
-                    $this->response(array("status" => 0,"message" => "Unauthorize access"), parent::HTTP_UNAUTHORIZED);
-                }
-            }catch(Exception $ex){
-                $this->response(array("status" => 0,"message" => $ex->getMessage()), parent::HTTP_INTERNAL_SERVER_ERROR);
-            }
-        }
 }
 
 ?>

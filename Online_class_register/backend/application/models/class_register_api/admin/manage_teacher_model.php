@@ -58,6 +58,23 @@ class manage_teacher_model extends CI_Model{
         return $query->row();
     }
 
+    public function is_group_exists($group_id){
+        $this->db->select("*");
+        $this->db->from("tbl_groups");
+        $this->db->where("group_id",$group_id);
+        $query = $this->db->get();
+        return $query->row();
+    }
+
+    public function is_email_unique($email, $id){
+        $this->db->select("*");
+        $this->db->from("tbl_teachers");
+        $this->db->where("teacher_email",$email);
+        $this->db->where("teacher_id !=",$id);
+        $query = $this->db->get();
+        return $query->row();
+    }
+
 }
 
 ?>
