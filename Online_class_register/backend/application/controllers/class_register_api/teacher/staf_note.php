@@ -18,6 +18,42 @@ class staf_note extends REST_Controller{
         ));
     }
 
+    //Create note
+    public function create_note_post(){
+
+        if(staf_note::tokenAccessValidation("Nauczyciel","Dyrektor")){
+
+            $data = json_decode(file_get_contents("php://input"));
+            $vfc = isset($data->note_comment) && isset($data->note_student_id);
+            $headers = $this->input->request_headers();
+            $token = $headers['Authorization'];
+            $decoded_token = authorization::validateToken($token);
+
+            if($vfc){  
+                if(!empty($this->staf_note_model->is_student_exists($data->note_student_id))){
+                        $note_data = array(
+                            "note_comment" => $data->note_comment,
+                            "note_teacher_id" => $decoded_token->data->teacher_id,
+                            "note_student_id" => $data->note_student_id
+                        );
+                        if(staf_note::validateInput($note_data)){
+                            if($this->staf_note_model->create_note($note_data)){
+                                $this->response(array("message" => "Note has been created"), parent::HTTP_OK);
+                            } else {
+                                $this->response(array("message" => "Failed to create note"), parent::HTTP_INTERNAL_SERVER_ERROR);
+                            }
+                        } else {
+                            $this->response(array("message" => "Thread detected, terminate request"), parent::HTTP_BAD_REQUEST);
+                        }
+                } else {
+                        $this->response(array("message" => "Student does not exist"), parent::HTTP_NOT_FOUND);
+                }
+            } else {
+                $this->response(array("message" => "All fields are needed"), parent::HTTP_NOT_FOUND);
+            }
+        }
+    }
+
     //Read note
     public function read_note_get(){
         if(staf_note::tokenAccessValidation("Nauczyciel","Dyrektor")){
@@ -54,6 +90,77 @@ class staf_note extends REST_Controller{
             }
         }       
     }
+
+    //Update note
+    public function update_note_put(){
+
+        if(staf_note::tokenAccessValidation("Nauczyciel","Dyrektor")){
+
+            $data = json_decode(file_get_contents("php://input"));
+            $vfc = isset($data->note_id) && isset($data->note_comment) && isset($data->note_student_id);
+            $headers = $this->input->request_headers();
+            $token = $headers['Authorization'];
+            $decoded_token = authorization::validateToken($token);
+
+            if($vfc){  
+                if(!empty($this->staf_note_model->is_student_exists($data->note_student_id))){
+                    if(!empty($this->staf_note_model->is_teacher_creator($data->note_id, $decoded_token->data->teacher_id))){
+                        $note_data = array(
+                            "note_comment" => $data->note_comment,
+                            "note_teacher_id" => $decoded_token->data->teacher_id,
+                            "note_student_id" => $data->note_student_id
+                        );
+                        if(staf_note::validateInput($note_data)){
+                            if($this->staf_note_model->update_note($data->note_id, $note_data)){
+                                $this->response(array("message" => "Note has been updated"), parent::HTTP_OK);
+                            } else {
+                                $this->response(array("message" => "Failed to update note"), parent::HTTP_INTERNAL_SERVER_ERROR);
+                            }
+                        } else {
+                            $this->response(array("message" => "Thread detected, terminate request"), parent::HTTP_BAD_REQUEST);
+                        }
+                    } else {
+                        $this->response(array("message" => "You are not the creator of this note record"), parent::HTTP_CONFLICT);
+                    }
+                } else {
+                    $this->response(array("message" => "Student does not exist"), parent::HTTP_NOT_FOUND);
+                }
+            } else {
+                $this->response(array("message" => "All fields are needed"), parent::HTTP_NOT_FOUND);
+            }
+        }
+    }   
+
+    //Delete note
+    public function delete_note_delete(){
+
+        if(staf_note::tokenAccessValidation("Nauczyciel","Dyrektor")){
+
+            $data = json_decode(file_get_contents("php://input"));
+            $vfc = isset($data->note_id);
+            $headers = $this->input->request_headers();
+            $token = $headers['Authorization'];
+            $decoded_token = authorization::validateToken($token);
+            
+            if($vfc){
+                if(!empty($this->staf_note_model->find_by_id($data->note_id))){
+                    if(!empty($this->staf_note_model->is_teacher_creator($data->note_id, $decoded_token->data->teacher_id))){
+                        if($this->staf_note_model->delete_note($data->note_id)){
+                            $this->response(array("message" => "Note has been deleted"), parent::HTTP_OK);
+                        }else{
+                            $this->response(array("message" => "Failed to delete note"), parent::HTTP_INTERNAL_SERVER_ERROR);
+                        }
+                    } else {
+                        $this->response(array("message" => "You are not the creator of this note record"), parent::HTTP_CONFLICT);
+                    }
+                } else {
+                    $this->response(array("message" => "Note doesn't exist"), parent::HTTP_NOT_FOUND);
+                }
+            } else {
+                $this->response(array("message" => "Note id is needed"), parent::HTTP_NOT_FOUND);
+            }
+        }
+    } 
 
     //Token validation
     public function tokenAccessValidation($role, $role2){

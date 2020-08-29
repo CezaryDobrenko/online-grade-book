@@ -11,7 +11,10 @@ class staf_grade_model extends CI_Model{
 
     //CRUD METHODS
 
-
+    public function create_grade($grade_data){
+        return $this->db->insert("tbl_grades",$grade_data);
+    }
+    
     public function get_all_grade($teacher_id){
         $this->db->select('tg.grade_id,tg.grade_value,tg.grade_comment,tg.grade_created_at,tgc.grade_category_name, ts.subject_name AS grade_subject_name, CONCAT( tsu.student_name, " ", tsu.student_surname ) AS grade_student');
         $this->db->from("tbl_grades AS tg");
@@ -32,6 +35,86 @@ class staf_grade_model extends CI_Model{
         $this->db->where("grade_id",$grade_id);
         $query = $this->db->get();
         return $query->result();
+    }
+
+    public function update_grade($grade_id, $grade_data){
+        $this->db->where("grade_id", $grade_id);
+        return $this->db->update("tbl_grades",$grade_data);
+    }
+
+    public function delete_grade($grade_id){
+        $this->db->where("grade_id", $grade_id);
+        return $this->db->delete("tbl_grades");
+    }
+
+
+    //HELPER METHODS
+
+    public function find_by_id($grade_id){
+        $this->db->select("*");
+        $this->db->from("tbl_grades");
+        $this->db->where("grade_id", $grade_id);
+        $query = $this->db->get();
+        return $query->row();
+    }
+
+    public function is_student_exists($student_id){
+        $this->db->select("*");
+        $this->db->from("tbl_students");
+        $this->db->where("student_id",$student_id);
+        $query = $this->db->get();
+        return $query->row();
+    }
+
+    public function is_category_exists($category_id){
+        $this->db->select("*");
+        $this->db->from("tbl_grades_category");
+        $this->db->where("grade_category_id",$category_id);
+        $query = $this->db->get();
+        return $query->row();
+    }
+
+    public function is_subject_exists($subject_id){
+        $this->db->select("*");
+        $this->db->from("tbl_subjects");
+        $this->db->where("subject_id",$subject_id);
+        $query = $this->db->get();
+        return $query->row();
+    }
+
+    public function check_if_student_group_has_that_lesson($group_id, $subject_id){
+        $this->db->select("*");
+        $this->db->from("tbl_groups_subjects");
+        $this->db->where("group_subject_subject_id",$subject_id);
+        $this->db->where("group_subject_group_id",$group_id);
+        $query = $this->db->get();
+        return $query->row();
+    }
+
+    public function get_group_from_student($student_id){
+        $this->db->select("student_group_id");
+        $this->db->from("tbl_students");
+        $this->db->where("student_id", $student_id);
+        $query = $this->db->get();
+        return $query->row();
+    }
+
+    public function is_teacher_has_subject($teacher_id, $subject_id){
+        $this->db->select("*");
+        $this->db->from("tbl_subject_has_teacher");
+        $this->db->where("subject_has_teacher_subject_id", $subject_id);
+        $this->db->where("subject_has_teacher_teacher_id", $teacher_id);
+        $query = $this->db->get();
+        return $query->row();
+    }
+
+    public function is_teacher_creator($grade_id, $teacher_id){
+        $this->db->select("*");
+        $this->db->from("tbl_grades");
+        $this->db->where("grade_id", $grade_id);
+        $this->db->where("grade_teacher_id", $teacher_id);
+        $query = $this->db->get();
+        return $query->row();
     }
 
 }

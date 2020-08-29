@@ -30,9 +30,13 @@ class parent_login extends REST_Controller{
 
             if(!empty($parent_details)){
                 if(password_verify($password, $parent_details->parent_password)){
-                    $parent_details->user_role = "Parent";
-                    $token = authorization::generateToken((array)$parent_details);
-                    $this->response(array("status" => 1,"message" => "Login successfully","token" => $token), parent::HTTP_OK);
+                    if($parent_details->parent_is_active == 1){
+                        $parent_details->user_role = "Parent";
+                        $token = authorization::generateToken((array)$parent_details);
+                        $this->response(array("status" => 1,"message" => "Login successfully","token" => $token), parent::HTTP_OK);
+                    } else {
+                        $this->response(array("status" => 0,"message" => "Account has been deactivated"), parent::HTTP_CONFLICT);
+                    }
                 } else {
                     $this->response(array("status" => 0,"message" => "Password didn't match"), parent::HTTP_NOT_FOUND);
                 }

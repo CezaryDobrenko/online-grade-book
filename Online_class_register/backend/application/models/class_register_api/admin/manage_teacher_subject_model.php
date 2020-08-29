@@ -66,6 +66,15 @@ class manage_teacher_subject_model extends CI_Model{
         return $query->row();
     }
 
+    public function is_teacher_subject_relation_exists($subject_id, $teacher_id){
+        $this->db->select("*");
+        $this->db->from("tbl_subject_has_teacher");
+        $this->db->where("subject_has_teacher_subject_id", $subject_id);
+        $this->db->where("subject_has_teacher_teacher_id", $teacher_id);
+        $query = $this->db->get();
+        return $query->row();
+    }
+
 }
 
 ?>

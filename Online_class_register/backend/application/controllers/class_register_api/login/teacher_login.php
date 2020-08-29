@@ -30,8 +30,12 @@ class teacher_login extends REST_Controller{
 
             if(!empty($teacher_details)){
                 if(password_verify($password, $teacher_details->teacher_password)){
-                    $token = authorization::generateToken((array)$teacher_details);
-                    $this->response(array("status" => 1,"message" => "Login successfully","token" => $token), parent::HTTP_OK);
+                    if($teacher_details->teacher_is_active == 1){
+                        $token = authorization::generateToken((array)$teacher_details);
+                        $this->response(array("status" => 1,"message" => "Login successfully","token" => $token), parent::HTTP_OK);
+                    } else {
+                        $this->response(array("status" => 0,"message" => "Account has been deactivated"), parent::HTTP_CONFLICT);
+                    }
                 } else {
                     $this->response(array("status" => 0,"message" => "Password didn't match"), parent::HTTP_NOT_FOUND);
                 }

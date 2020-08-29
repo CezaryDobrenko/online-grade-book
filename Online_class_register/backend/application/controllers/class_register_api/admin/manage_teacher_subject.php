@@ -29,24 +29,28 @@ class manage_teacher_subject extends REST_Controller{
             if($vfc){  
                 if(!empty($this->manage_teacher_subject_model->is_teacher_exists($data->subject_has_teacher_teacher_id))){
                    if(!empty($this->manage_teacher_subject_model->is_subject_exists($data->subject_has_teacher_subject_id))){
-                        $teacher_subject_data = array(
-                            "subject_has_teacher_teacher_id" => $data->subject_has_teacher_teacher_id,
-                            "subject_has_teacher_subject_id" => $data->subject_has_teacher_subject_id
-                        );
-                        if(manage_teacher_subject::validateInput($teacher_subject_data)){
-                            if($this->manage_teacher_subject_model->create_teacher_subject($teacher_subject_data)){
-                                $this->response(array("message" => "Teacher subject relation has been created"), parent::HTTP_OK);
+                        if(empty($this->manage_teacher_subject_model->is_teacher_subject_relation_exists($data->subject_has_teacher_subject_id,$data->subject_has_teacher_teacher_id))){
+                            $teacher_subject_data = array(
+                                "subject_has_teacher_teacher_id" => $data->subject_has_teacher_teacher_id,
+                                "subject_has_teacher_subject_id" => $data->subject_has_teacher_subject_id
+                            );
+                            if(manage_teacher_subject::validateInput($teacher_subject_data)){
+                                if($this->manage_teacher_subject_model->create_teacher_subject($teacher_subject_data)){
+                                    $this->response(array("message" => "Teacher subject relation has been created"), parent::HTTP_OK);
+                                } else {
+                                    $this->response(array("message" => "Failed to create teacher subject relation"), parent::HTTP_INTERNAL_SERVER_ERROR);
+                                }
                             } else {
-                                $this->response(array("message" => "Failed to create teacher subject relation"), parent::HTTP_INTERNAL_SERVER_ERROR);
+                                $this->response(array("message" => "Thread detected, terminate request"), parent::HTTP_BAD_REQUEST);
                             }
                         } else {
-                            $this->response(array("message" => "Thread detected, terminate request"), parent::HTTP_BAD_REQUEST);
+                            $this->response(array("message" => "Teacher already has that subject"), parent::HTTP_CONFLICT);
                         }
                    } else {
-                        $this->response(array("message" => "Subject does not exist"), parent::HTTP_CONFLICT);
+                        $this->response(array("message" => "Subject does not exist"), parent::HTTP_NOT_FOUND);
                    }
                 } else {
-                    $this->response(array("message" => "Teacher does not exist"), parent::HTTP_CONFLICT);
+                    $this->response(array("message" => "Teacher does not exist"), parent::HTTP_NOT_FOUND);
                 }
             } else {
                 $this->response(array("message" => "All fields are needed"), parent::HTTP_NOT_FOUND);

@@ -30,9 +30,13 @@ class student_login extends REST_Controller{
 
             if(!empty($student_details)){
                 if(password_verify($password, $student_details->student_password)){
-                    $student_details->user_role = "Student";
-                    $token = authorization::generateToken((array)$student_details);
-                    $this->response(array("status" => 1,"message" => "Login successfully","token" => $token), parent::HTTP_OK);
+                    if($student_details->student_is_active == 1){
+                        $student_details->user_role = "Student";
+                        $token = authorization::generateToken((array)$student_details);
+                        $this->response(array("status" => 1,"message" => "Login successfully","token" => $token), parent::HTTP_OK);
+                    } else {
+                        $this->response(array("status" => 0,"message" => "Account has been deactivated"), parent::HTTP_CONFLICT);
+                    }
                 } else {
                     $this->response(array("status" => 0,"message" => "Password didn't match"), parent::HTTP_NOT_FOUND);
                 }

@@ -24,7 +24,7 @@ class manage_grades extends REST_Controller{
         if(manage_grades::tokenAccessValidation("Administrator")){
 
             $data = json_decode(file_get_contents("php://input"));
-            $vfc = isset($data->grade_value) && isset($data->grade_comment)  && isset($data->grade_category_id)  && isset($data->grade_student_id)  && isset($data->grade_teacher_id) && isset($data->grade_subject_id);
+            $vfc = isset($data->grade_value) && isset($data->grade_comment) && isset($data->grade_semester)  && isset($data->grade_category_id)  && isset($data->grade_student_id)  && isset($data->grade_teacher_id) && isset($data->grade_subject_id);
             
             if($vfc){  
                 if(!empty($this->manage_grade_model->is_teacher_exists($data->grade_teacher_id))){
@@ -39,7 +39,8 @@ class manage_grades extends REST_Controller{
                                         "grade_category_id" => $data->grade_category_id,
                                         "grade_student_id" => $data->grade_student_id,
                                         "grade_teacher_id" => $data->grade_teacher_id,
-                                        "grade_subject_id" => $data->grade_subject_id
+                                        "grade_subject_id" => $data->grade_subject_id,
+                                        "grade_semester" => $data->grade_semester
                                     );
                                     if(manage_grades::validateInput($grade_data)){
                                         if($this->manage_grade_model->create_grade($grade_data)){
@@ -112,7 +113,7 @@ class manage_grades extends REST_Controller{
         if(manage_grades::tokenAccessValidation("Administrator")){
 
             $data = json_decode(file_get_contents("php://input"));
-            $vfc = isset($data->grade_id) && isset($data->grade_value) && isset($data->grade_comment)  && isset($data->grade_category_id)  && isset($data->grade_student_id)  && isset($data->grade_teacher_id) && isset($data->grade_subject_id);
+            $vfc = isset($data->grade_id) && isset($data->grade_value) && isset($data->grade_comment) && isset($data->grade_semester)  && isset($data->grade_category_id)  && isset($data->grade_student_id)  && isset($data->grade_teacher_id) && isset($data->grade_subject_id);
             
             if($vfc){  
                 if(!empty($this->manage_grade_model->is_teacher_exists($data->grade_teacher_id))){
@@ -127,7 +128,8 @@ class manage_grades extends REST_Controller{
                                         "grade_category_id" => $data->grade_category_id,
                                         "grade_student_id" => $data->grade_student_id,
                                         "grade_teacher_id" => $data->grade_teacher_id,
-                                        "grade_subject_id" => $data->grade_subject_id
+                                        "grade_subject_id" => $data->grade_subject_id,
+                                        "grade_semester" => $data->grade_semester
                                     );
                                     if(manage_grades::validateInput($grade_data)){
                                         if($this->manage_grade_model->update_grade($data->grade_id, $grade_data)){

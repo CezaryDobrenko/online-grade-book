@@ -10,7 +10,7 @@ class parent_login_model extends CI_Model{
     }
 
     public function is_email_exists($parent_email){
-        $this->db->select("parent_id, parent_email, parent_password, parent_student_id AS student_id");
+        $this->db->select("parent_id, parent_email, parent_password, parent_is_active, parent_student_id AS student_id");
         $this->db->from("tbl_parents");
         $this->db->where("parent_email",$parent_email);
         $query = $this->db->get();
