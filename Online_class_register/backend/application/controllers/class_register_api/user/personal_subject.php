@@ -20,7 +20,7 @@ class personal_subject extends REST_Controller{
 
     //Read subject
     public function read_subject_get(){
-        if(personal_subject::tokenAccessValidation("Student","Parent")){
+        if(personal_subject::tokenAccessValidation("Student","Rodzic")){
             $headers = $this->input->request_headers();
             $token = $headers['Authorization'];
             $decoded_token = authorization::validateToken($token);

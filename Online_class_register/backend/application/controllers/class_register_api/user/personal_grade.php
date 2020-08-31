@@ -20,7 +20,7 @@ class personal_grade extends REST_Controller{
 
     //Read grade
     public function read_grade_get(){
-        if(personal_grade::tokenAccessValidation("Student","Parent")){
+        if(personal_grade::tokenAccessValidation("Student","Rodzic")){
             $headers = $this->input->request_headers();
             $token = $headers['Authorization'];
             $decoded_token = authorization::validateToken($token);
@@ -51,7 +51,7 @@ class personal_grade extends REST_Controller{
 
     //Read single grade
     public function read_single_grade_get(){
-        if(personal_grade::tokenAccessValidation("Student","Parent")){
+        if(personal_grade::tokenAccessValidation("Student","Rodzic")){
             $data = json_decode(file_get_contents("php://input"));
 
             if(isset($data->grade_id)){

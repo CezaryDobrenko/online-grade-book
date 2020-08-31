@@ -20,7 +20,7 @@ class personal_note extends REST_Controller{
 
     //Read note
     public function read_note_get(){
-        if(personal_note::tokenAccessValidation("Student","Parent")){
+        if(personal_note::tokenAccessValidation("Student","Rodzic")){
             $headers = $this->input->request_headers();
             $token = $headers['Authorization'];
             $decoded_token = authorization::validateToken($token);
@@ -36,7 +36,7 @@ class personal_note extends REST_Controller{
 
     //Read single note
     public function read_single_note_get(){
-        if(personal_note::tokenAccessValidation("Student","Parent")){
+        if(personal_note::tokenAccessValidation("Student","Rodzic")){
             $data = json_decode(file_get_contents("php://input"));
             if(isset($data->note_id)){
                 $headers = $this->input->request_headers();

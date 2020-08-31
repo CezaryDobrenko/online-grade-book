@@ -31,7 +31,7 @@ class parent_login extends REST_Controller{
             if(!empty($parent_details)){
                 if(password_verify($password, $parent_details->parent_password)){
                     if($parent_details->parent_is_active == 1){
-                        $parent_details->user_role = "Parent";
+                        $parent_details->user_role = "Rodzic";
                         $token = authorization::generateToken((array)$parent_details);
                         $this->response(array("status" => 1,"message" => "Login successfully","token" => $token), parent::HTTP_OK);
                     } else {
