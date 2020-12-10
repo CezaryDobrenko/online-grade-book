@@ -39,21 +39,21 @@ class manage_student extends REST_Controller{
                         );
                         if(manage_student::validateInput($student_data)){
                             if($this->manage_student_model->create_student($student_data)){
-                                $this->response(array("message" => "Student has been created"), parent::HTTP_OK);
+                                $this->response(array("message" => "Student has been created", "status" => "1"), parent::HTTP_OK);
                             } else {
-                                $this->response(array("message" => "Failed to create student"), parent::HTTP_INTERNAL_SERVER_ERROR);
+                                $this->response(array("message" => "Failed to create student", "status" => "0"), parent::HTTP_INTERNAL_SERVER_ERROR);
                             }
                         } else {
-                            $this->response(array("message" => "Thread detected, terminate request"), parent::HTTP_BAD_REQUEST);
+                            $this->response(array("message" => "Thread detected, terminate request", "status" => "0"), parent::HTTP_BAD_REQUEST);
                         }
                     } else {
-                        $this->response(array("message" => "Group does not exist"), parent::HTTP_NOT_FOUND);
+                        $this->response(array("message" => "Group does not exist", "status" => "0"), parent::HTTP_NOT_FOUND);
                     }
                 } else {
-                    $this->response(array("message" => "Email address has been taken"), parent::HTTP_CONFLICT);
+                    $this->response(array("message" => "Email address has been taken", "status" => "0"), parent::HTTP_CONFLICT);
                 }
             } else {
-                $this->response(array("message" => "All fields are needed"), parent::HTTP_NOT_FOUND);
+                $this->response(array("message" => "All fields are needed", "status" => "0"), parent::HTTP_NOT_FOUND);
             }
         }
     }
@@ -76,10 +76,8 @@ class manage_student extends REST_Controller{
 
         if(manage_student::tokenAccessValidation("Administrator")){
 
-            $data = json_decode(file_get_contents("php://input"));
-
-            if(isset($data->student_id)){
-                $student_data = $this->manage_student_model->get_student($data->student_id);
+            if(isset($_GET['id'])){
+                $student_data = $this->manage_student_model->get_student($_GET['id']);
     
                 if(count($student_data) > 0){
                     $this->response(array("message" => "Student data", "data" => $student_data), parent::HTTP_OK);
@@ -114,21 +112,21 @@ class manage_student extends REST_Controller{
                         );
                         if(manage_student::validateInput($student_data)){
                             if($this->manage_student_model->update_student($data->student_id, $student_data)){
-                                $this->response(array("message" => "Student has been updated"), parent::HTTP_OK);
+                                $this->response(array("message" => "Student has been updated", "status" => "1"), parent::HTTP_OK);
                             } else {
-                                $this->response(array("message" => "Failed to update student"), parent::HTTP_INTERNAL_SERVER_ERROR);
+                                $this->response(array("message" => "Failed to update student", "status" => "0"), parent::HTTP_INTERNAL_SERVER_ERROR);
                             }
                         } else {
-                            $this->response(array("message" => "Thread detected, terminate request"), parent::HTTP_BAD_REQUEST);
+                            $this->response(array("message" => "Thread detected, terminate request", "status" => "0"), parent::HTTP_BAD_REQUEST);
                         }
                     } else {
-                        $this->response(array("message" => "Group does not exist"), parent::HTTP_NOT_FOUND);
+                        $this->response(array("message" => "Group does not exist", "status" => "0"), parent::HTTP_NOT_FOUND);
                     }
                 } else {
-                    $this->response(array("message" => "Email adress has been taken"), parent::HTTP_CONFLICT);
+                    $this->response(array("message" => "Email adress has been taken", "status" => "0"), parent::HTTP_CONFLICT);
                 }
             } else {
-                $this->response(array("message" => "All fields are needed"), parent::HTTP_NOT_FOUND);
+                $this->response(array("message" => "All fields are needed", "status" => "0"), parent::HTTP_NOT_FOUND);
             }
         }
     }   
@@ -144,15 +142,15 @@ class manage_student extends REST_Controller{
             if($vfc){
                 if(!empty($this->manage_student_model->find_by_id($data->student_id))){
                     if($this->manage_student_model->delete_student($data->student_id)){
-                        $this->response(array("message" => "Student has been deleted"), parent::HTTP_OK);
+                        $this->response(array("message" => "Student has been deleted", "status" => "1"), parent::HTTP_OK);
                     }else{
-                        $this->response(array("message" => "Failed to delete teacher"), parent::HTTP_INTERNAL_SERVER_ERROR);
+                        $this->response(array("message" => "Failed to delete teacher", "status" => "0"), parent::HTTP_INTERNAL_SERVER_ERROR);
                     }
                 } else {
-                    $this->response(array("message" => "Student doesn't exist"), parent::HTTP_NOT_FOUND);
+                    $this->response(array("message" => "Student doesn't exist", "status" => "0"), parent::HTTP_NOT_FOUND);
                 }
             } else {
-                $this->response(array("message" => "Student id is needed"), parent::HTTP_NOT_FOUND);
+                $this->response(array("message" => "Student id is needed", "status" => "0"), parent::HTTP_NOT_FOUND);
             }
         }
     } 

@@ -44,30 +44,30 @@ class manage_grades extends REST_Controller{
                                     );
                                     if(manage_grades::validateInput($grade_data)){
                                         if($this->manage_grade_model->create_grade($grade_data)){
-                                            $this->response(array("message" => "Grade has been created"), parent::HTTP_OK);
+                                            $this->response(array("message" => "Grade has been created", "status" => "1"), parent::HTTP_OK);
                                         } else {
-                                            $this->response(array("message" => "Failed to create grade"), parent::HTTP_INTERNAL_SERVER_ERROR);
+                                            $this->response(array("message" => "Failed to create grade", "status" => "0"), parent::HTTP_INTERNAL_SERVER_ERROR);
                                         }
                                     } else {
-                                        $this->response(array("message" => "Thread detected, terminate request"), parent::HTTP_BAD_REQUEST);
+                                        $this->response(array("message" => "Thread detected, terminate request", "status" => "0"), parent::HTTP_BAD_REQUEST);
                                     }
                                 } else {
-                                    $this->response(array("message" => "Student group does not have that subject"), parent::HTTP_NOT_FOUND);
+                                    $this->response(array("message" => "Student group does not have that subject", "status" => "0"), parent::HTTP_NOT_FOUND);
                                 }
                             } else {
-                                $this->response(array("message" => "Subject does not exist"), parent::HTTP_NOT_FOUND);
+                                $this->response(array("message" => "Subject does not exist", "status" => "0"), parent::HTTP_NOT_FOUND);
                             }
                         } else {
-                            $this->response(array("message" => "Category does not exist"), parent::HTTP_NOT_FOUND);
+                            $this->response(array("message" => "Category does not exist", "status" => "0"), parent::HTTP_NOT_FOUND);
                         }
                     } else {
-                        $this->response(array("message" => "Student does not exist"), parent::HTTP_NOT_FOUND);
+                        $this->response(array("message" => "Student does not exist", "status" => "0"), parent::HTTP_NOT_FOUND);
                     }
                 } else {
-                    $this->response(array("message" => "Teacher does not exist"), parent::HTTP_NOT_FOUND);
+                    $this->response(array("message" => "Teacher does not exist", "status" => "0"), parent::HTTP_NOT_FOUND);
                 }
             } else {
-                $this->response(array("message" => "All fields are needed"), parent::HTTP_NOT_FOUND);
+                $this->response(array("message" => "All fields are needed", "status" => "0"), parent::HTTP_NOT_FOUND);
             }
         }
     }
@@ -90,10 +90,8 @@ class manage_grades extends REST_Controller{
 
         if(manage_grades::tokenAccessValidation("Administrator")){
 
-            $data = json_decode(file_get_contents("php://input"));
-
-            if(isset($data->grade_id)){
-                $grade_data = $this->manage_grade_model->get_grade($data->grade_id);
+            if(isset($_GET['id'])){
+                $grade_data = $this->manage_grade_model->get_grade($_GET['id']);
     
                 if(count($grade_data) > 0){
                     $this->response(array("message" => "Grade data", "data" => $grade_data), parent::HTTP_OK);
@@ -133,30 +131,30 @@ class manage_grades extends REST_Controller{
                                     );
                                     if(manage_grades::validateInput($grade_data)){
                                         if($this->manage_grade_model->update_grade($data->grade_id, $grade_data)){
-                                            $this->response(array("message" => "Grade has been updated"), parent::HTTP_OK);
+                                            $this->response(array("message" => "Grade has been updated", "status" => "1"), parent::HTTP_OK);
                                         } else {
-                                            $this->response(array("message" => "Failed to update grade"), parent::HTTP_INTERNAL_SERVER_ERROR);
+                                            $this->response(array("message" => "Failed to update grade", "status" => "0"), parent::HTTP_INTERNAL_SERVER_ERROR);
                                         }
                                     } else {
-                                        $this->response(array("message" => "Thread detected, terminate request"), parent::HTTP_BAD_REQUEST);
+                                        $this->response(array("message" => "Thread detected, terminate request", "status" => "0"), parent::HTTP_BAD_REQUEST);
                                     }
                                 } else {
-                                    $this->response(array("message" => "Student group does not have that subject"), parent::HTTP_NOT_FOUND);
+                                    $this->response(array("message" => "Student group does not have that subject", "status" => "0"), parent::HTTP_NOT_FOUND);
                                 }
                             } else {
-                                $this->response(array("message" => "Subject does not exist"), parent::HTTP_NOT_FOUND);
+                                $this->response(array("message" => "Subject does not exist", "status" => "0"), parent::HTTP_NOT_FOUND);
                             }
                         } else {
-                            $this->response(array("message" => "Category does not exist"), parent::HTTP_NOT_FOUND);
+                            $this->response(array("message" => "Category does not exist", "status" => "0"), parent::HTTP_NOT_FOUND);
                         }
                     } else {
-                        $this->response(array("message" => "Student does not exist"), parent::HTTP_NOT_FOUND);
+                        $this->response(array("message" => "Student does not exist", "status" => "0"), parent::HTTP_NOT_FOUND);
                     }
                 } else {
-                    $this->response(array("message" => "Teacher does not exist"), parent::HTTP_NOT_FOUND);
+                    $this->response(array("message" => "Teacher does not exist", "status" => "0"), parent::HTTP_NOT_FOUND);
                 }
             } else {
-                $this->response(array("message" => "All fields are needed"), parent::HTTP_NOT_FOUND);
+                $this->response(array("message" => "All fields are needed", "status" => "0"), parent::HTTP_NOT_FOUND);
             }
         }
     }   
@@ -172,15 +170,15 @@ class manage_grades extends REST_Controller{
             if($vfc){
                 if(!empty($this->manage_grade_model->find_by_id($data->grade_id))){
                     if($this->manage_grade_model->delete_grade($data->grade_id)){
-                        $this->response(array("message" => "Grade has been deleted"), parent::HTTP_OK);
+                        $this->response(array("message" => "Grade has been deleted", "status" => "1"), parent::HTTP_OK);
                     }else{
-                        $this->response(array("message" => "Failed to delete grade"), parent::HTTP_INTERNAL_SERVER_ERROR);
+                        $this->response(array("message" => "Failed to delete grade", "status" => "0"), parent::HTTP_INTERNAL_SERVER_ERROR);
                     }
                 } else {
-                    $this->response(array("message" => "Grade doesn't exist"), parent::HTTP_NOT_FOUND);
+                    $this->response(array("message" => "Grade doesn't exist", "status" => "0"), parent::HTTP_NOT_FOUND);
                 }
             } else {
-                $this->response(array("message" => "Grade id is needed"), parent::HTTP_NOT_FOUND);
+                $this->response(array("message" => "Grade id is needed", "status" => "0"), parent::HTTP_NOT_FOUND);
             }
         }
     } 

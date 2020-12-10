@@ -33,18 +33,18 @@ class manage_subject extends REST_Controller{
                     );
                     if(manage_subject::validateInput($subject_data)){
                         if($this->manage_subject_model->create_subject($subject_data)){
-                            $this->response(array("message" => "Subject has been created"), parent::HTTP_OK);
+                            $this->response(array("message" => "Subject has been created", "status" => "1"), parent::HTTP_OK);
                         } else {
-                            $this->response(array("message" => "Failed to create subject"), parent::HTTP_INTERNAL_SERVER_ERROR);
+                            $this->response(array("message" => "Failed to create subject", "status" => "0"), parent::HTTP_INTERNAL_SERVER_ERROR);
                         }
                     } else {
-                        $this->response(array("message" => "Thread detected, terminate request"), parent::HTTP_BAD_REQUEST);
+                        $this->response(array("message" => "Thread detected, terminate request", "status" => "0"), parent::HTTP_BAD_REQUEST);
                     }
                 } else {
-                    $this->response(array("message" => "Subject already exists"), parent::HTTP_CONFLICT);
+                    $this->response(array("message" => "Subject already exists", "status" => "0"), parent::HTTP_CONFLICT);
                 }
             } else {
-                $this->response(array("message" => "All fields are needed"), parent::HTTP_NOT_FOUND);
+                $this->response(array("message" => "All fields are needed", "status" => "0"), parent::HTTP_NOT_FOUND);
             }
         }
     }
@@ -67,10 +67,8 @@ class manage_subject extends REST_Controller{
 
         if(manage_subject::tokenAccessValidation("Administrator")){
 
-            $data = json_decode(file_get_contents("php://input"));
-
-            if(isset($data->subject_id)){
-                $subject_data = $this->manage_subject_model->get_subject($data->subject_id);
+            if(isset($_GET['id'])){
+                $subject_data = $this->manage_subject_model->get_subject($_GET['id']);
     
                 if(count($subject_data) > 0){
                     $this->response(array("message" => "Subject data", "data" => $subject_data), parent::HTTP_OK);
@@ -98,15 +96,15 @@ class manage_subject extends REST_Controller{
                         "subject_name" => $data->subject_name,
                     );
                     if($this->manage_subject_model->update_subject($data->subject_id, $subject_data)){
-                        $this->response(array("message" => "Teacher has been updated"), parent::HTTP_OK);
+                        $this->response(array("message" => "Teacher has been updated", "status" => "1"), parent::HTTP_OK);
                     } else {
-                        $this->response(array("message" => "Failed to update teacher"), parent::HTTP_INTERNAL_SERVER_ERROR);
+                        $this->response(array("message" => "Failed to update teacher", "status" => "0"), parent::HTTP_INTERNAL_SERVER_ERROR);
                     }
                 } else {
-                    $this->response(array("message" => "Subject already exists"), parent::HTTP_CONFLICT);
+                    $this->response(array("message" => "Subject already exists", "status" => "0"), parent::HTTP_CONFLICT);
                 }
             } else {
-                $this->response(array("message" => "All fields are needed"), parent::HTTP_NOT_FOUND);
+                $this->response(array("message" => "All fields are needed", "status" => "0"), parent::HTTP_NOT_FOUND);
             }
         }
     }   
@@ -122,15 +120,15 @@ class manage_subject extends REST_Controller{
             if($vfc){
                 if(!empty($this->manage_subject_model->find_by_id($data->subject_id))){
                     if($this->manage_subject_model->delete_subject($data->subject_id)){
-                        $this->response(array("message" => "Subject has been deleted"), parent::HTTP_OK);
+                        $this->response(array("message" => "Subject has been deleted", "status" => "1"), parent::HTTP_OK);
                     }else{
-                        $this->response(array("message" => "Failed to delete teacher"), parent::HTTP_INTERNAL_SERVER_ERROR);
+                        $this->response(array("message" => "Failed to delete subject", "status" => "0"), parent::HTTP_INTERNAL_SERVER_ERROR);
                     }
                 } else {
-                    $this->response(array("message" => "Subject doesn't exist"), parent::HTTP_NOT_FOUND);
+                    $this->response(array("message" => "Subject doesn't exist", "status" => "0"), parent::HTTP_NOT_FOUND);
                 }
             } else {
-                $this->response(array("message" => "Subject id is needed"), parent::HTTP_NOT_FOUND);
+                $this->response(array("message" => "Subject id is needed", "status" => "0"), parent::HTTP_NOT_FOUND);
             }
         }
     } 

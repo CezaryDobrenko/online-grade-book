@@ -38,10 +38,10 @@ class student_login extends REST_Controller{
                         $this->response(array("status" => 0,"message" => "Account has been deactivated"), parent::HTTP_CONFLICT);
                     }
                 } else {
-                    $this->response(array("status" => 0,"message" => "Password didn't match"), parent::HTTP_NOT_FOUND);
+                    $this->response(array("status" => 0,"message" => "Wrong Credentials"), parent::HTTP_NOT_FOUND);
                 }
             } else {
-                $this->response(array("status" => 0,"message" => "Email adress not found"), parent::HTTP_NOT_FOUND);
+                $this->response(array("status" => 0,"message" => "Wrong Credentials"), parent::HTTP_NOT_FOUND);
             }
         } else {
             $this->response(array("status" => 0,"message" => "Login details needed"), parent::HTTP_NOT_FOUND);

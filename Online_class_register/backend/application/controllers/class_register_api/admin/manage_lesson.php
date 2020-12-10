@@ -36,24 +36,24 @@ class manage_lesson extends REST_Controller{
                             );
                             if(manage_lesson::validateInput($lesson_data)){
                                 if($this->manage_lesson_model->create_lesson($lesson_data)){
-                                    $this->response(array("message" => "Lesson has been created"), parent::HTTP_OK);
+                                    $this->response(array("message" => "Lesson has been created", "status" => "1"), parent::HTTP_OK);
                                 } else {
-                                    $this->response(array("message" => "Failed to create lesson"), parent::HTTP_INTERNAL_SERVER_ERROR);
+                                    $this->response(array("message" => "Failed to create lesson", "status" => "0"), parent::HTTP_INTERNAL_SERVER_ERROR);
                                 }
                             } else {
-                                $this->response(array("message" => "Thread detected, terminate request"), parent::HTTP_BAD_REQUEST);
+                                $this->response(array("message" => "Thread detected, terminate request", "status" => "0"), parent::HTTP_BAD_REQUEST);
                             }
                         } else {
-                            $this->response(array("message" => "Group does have that subject already"), parent::HTTP_CONFLICT);
+                            $this->response(array("message" => "Group does have that subject already", "status" => "0"), parent::HTTP_CONFLICT);
                         }
                     } else {
-                        $this->response(array("message" => "Group does not exist"), parent::HTTP_NOT_FOUND);
+                        $this->response(array("message" => "Group does not exist", "status" => "0"), parent::HTTP_NOT_FOUND);
                     }
                 } else {
-                    $this->response(array("message" => "Subject does not exist"), parent::HTTP_NOT_FOUND);
+                    $this->response(array("message" => "Subject does not exist", "status" => "0"), parent::HTTP_NOT_FOUND);
                 }
             } else {
-                $this->response(array("message" => "All fields are needed"), parent::HTTP_NOT_FOUND);
+                $this->response(array("message" => "All fields are needed", "status" => "0"), parent::HTTP_NOT_FOUND);
             }
         }
     }
@@ -76,10 +76,8 @@ class manage_lesson extends REST_Controller{
 
         if(manage_lesson::tokenAccessValidation("Administrator")){
 
-            $data = json_decode(file_get_contents("php://input"));
-
-            if(isset($data->group_subject_id)){
-                $lesson_data = $this->manage_lesson_model->get_lesson($data->group_subject_id);
+            if(isset($_GET['id'])){
+                $lesson_data = $this->manage_lesson_model->get_lesson($_GET['id']);
     
                 if(count($lesson_data) > 0){
                     $this->response(array("message" => "Lesson data", "data" => $lesson_data), parent::HTTP_OK);
@@ -112,27 +110,27 @@ class manage_lesson extends REST_Controller{
                                 );
                                 if(manage_lesson::validateInput($lesson_data)){
                                     if($this->manage_lesson_model->update_lesson($data->group_subject_id, $lesson_data)){
-                                        $this->response(array("message" => "Lesson has been updated"), parent::HTTP_OK);
+                                        $this->response(array("message" => "Lesson has been updated", "status" => "1"), parent::HTTP_OK);
                                     } else {
-                                        $this->response(array("message" => "Failed to update lesson"), parent::HTTP_INTERNAL_SERVER_ERROR);
+                                        $this->response(array("message" => "Failed to update lesson", "status" => "0"), parent::HTTP_INTERNAL_SERVER_ERROR);
                                     }
                                 } else {
-                                    $this->response(array("message" => "Thread detected, terminate request"), parent::HTTP_BAD_REQUEST);
+                                    $this->response(array("message" => "Thread detected, terminate request", "status" => "0"), parent::HTTP_BAD_REQUEST);
                                 }
                             } else {
-                                $this->response(array("message" => "Group does have that subject already"), parent::HTTP_CONFLICT);
+                                $this->response(array("message" => "Group does have that subject already", "status" => "0"), parent::HTTP_CONFLICT);
                             }
                         } else {
-                            $this->response(array("message" => "Group does not exist"), parent::HTTP_NOT_FOUND);
+                            $this->response(array("message" => "Group does not exist", "status" => "0"), parent::HTTP_NOT_FOUND);
                         }
                     } else {
-                        $this->response(array("message" => "Subject does not exist"), parent::HTTP_CONFLICT);
+                        $this->response(array("message" => "Subject does not exist", "status" => "0"), parent::HTTP_CONFLICT);
                     }
                 } else {
-                    $this->response(array("message" => "Lesson does not exist"), parent::HTTP_NOT_FOUND);
+                    $this->response(array("message" => "Lesson does not exist", "status" => "0"), parent::HTTP_NOT_FOUND);
                 }
             } else {
-                $this->response(array("message" => "All fields are needed"), parent::HTTP_NOT_FOUND);
+                $this->response(array("message" => "All fields are needed", "status" => "0"), parent::HTTP_NOT_FOUND);
             }
         }
     }   
@@ -148,15 +146,15 @@ class manage_lesson extends REST_Controller{
             if($vfc){
                 if(!empty($this->manage_lesson_model->find_by_id($data->group_subject_id))){
                     if($this->manage_lesson_model->delete_lesson($data->group_subject_id)){
-                        $this->response(array("message" => "Lesson has been deleted"), parent::HTTP_OK);
+                        $this->response(array("message" => "Lesson has been deleted", "status" => "1"), parent::HTTP_OK);
                     }else{
-                        $this->response(array("message" => "Failed to delete lesson"), parent::HTTP_INTERNAL_SERVER_ERROR);
+                        $this->response(array("message" => "Failed to delete lesson", "status" => "0"), parent::HTTP_INTERNAL_SERVER_ERROR);
                     }
                 } else {
-                    $this->response(array("message" => "Lesson doesn't exist"), parent::HTTP_NOT_FOUND);
+                    $this->response(array("message" => "Lesson doesn't exist", "status" => "0"), parent::HTTP_NOT_FOUND);
                 }
             } else {
-                $this->response(array("message" => "Lesson id is needed"), parent::HTTP_NOT_FOUND);
+                $this->response(array("message" => "Lesson id is needed", "status" => "0"), parent::HTTP_NOT_FOUND);
             }
         }
     } 

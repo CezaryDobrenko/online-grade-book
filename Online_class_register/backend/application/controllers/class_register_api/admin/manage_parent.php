@@ -37,21 +37,21 @@ class manage_parent extends REST_Controller{
                         );
                         if(manage_parent::validateInput($parent_data)){
                             if($this->manage_parent_model->create_parent($parent_data)){
-                                $this->response(array("message" => "Parent has been created"), parent::HTTP_OK);
+                                $this->response(array("message" => "Parent has been created", "status" => "1"), parent::HTTP_OK);
                             } else {
-                                $this->response(array("message" => "Failed to create parent"), parent::HTTP_INTERNAL_SERVER_ERROR);
+                                $this->response(array("message" => "Failed to create parent", "status" => "0"), parent::HTTP_INTERNAL_SERVER_ERROR);
                             }
                         } else {
-                            $this->response(array("message" => "Thread detected, terminate request"), parent::HTTP_BAD_REQUEST);
+                            $this->response(array("message" => "Thread detected, terminate request", "status" => "0"), parent::HTTP_BAD_REQUEST);
                         }
                     } else {
-                        $this->response(array("message" => "Student does not exist"), parent::HTTP_NOT_FOUND);
+                        $this->response(array("message" => "Student does not exist", "status" => "0"), parent::HTTP_NOT_FOUND);
                     }
                 } else {
-                    $this->response(array("message" => "Email address has been taken"), parent::HTTP_CONFLICT);
+                    $this->response(array("message" => "Email address has been taken", "status" => "0"), parent::HTTP_CONFLICT);
                 }
             } else {
-                $this->response(array("message" => "All fields are needed"), parent::HTTP_NOT_FOUND);
+                $this->response(array("message" => "All fields are needed", "status" => "0"), parent::HTTP_NOT_FOUND);
             }
         }
     }
@@ -74,10 +74,8 @@ class manage_parent extends REST_Controller{
 
         if(manage_parent::tokenAccessValidation("Administrator")){
 
-            $data = json_decode(file_get_contents("php://input"));
-
-            if(isset($data->parent_id)){
-                $parent_data = $this->manage_parent_model->get_parent($data->parent_id);
+            if(isset($_GET['id'])){
+                $parent_data = $this->manage_parent_model->get_parent($_GET['id']);
     
                 if(count($parent_data) > 0){
                     $this->response(array("message" => "Parent data", "data" => $parent_data), parent::HTTP_OK);
@@ -110,21 +108,21 @@ class manage_parent extends REST_Controller{
                         );
                         if(manage_parent::validateInput($parent_data)){
                             if($this->manage_parent_model->update_parent($data->parent_id, $parent_data)){
-                                $this->response(array("message" => "Parent has been updated"), parent::HTTP_OK);
+                                $this->response(array("message" => "Parent has been updated", "status" => "1"), parent::HTTP_OK);
                             } else {
-                                $this->response(array("message" => "Failed to update parent"), parent::HTTP_INTERNAL_SERVER_ERROR);
+                                $this->response(array("message" => "Failed to update parent", "status" => "0"), parent::HTTP_INTERNAL_SERVER_ERROR);
                             }
                         } else {
-                            $this->response(array("message" => "Thread detected, terminate request"), parent::HTTP_BAD_REQUEST);
+                            $this->response(array("message" => "Thread detected, terminate request", "status" => "0"), parent::HTTP_BAD_REQUEST);
                         }
                     } else {
-                        $this->response(array("message" => "Student does not exist"), parent::HTTP_NOT_FOUND);
+                        $this->response(array("message" => "Student does not exist", "status" => "0"), parent::HTTP_NOT_FOUND);
                     }
                 } else {
-                    $this->response(array("message" => "Email adress has been taken"), parent::HTTP_CONFLICT);
+                    $this->response(array("message" => "Email adress has been taken", "status" => "0"), parent::HTTP_CONFLICT);
                 }
             } else {
-                $this->response(array("message" => "All fields are needed"), parent::HTTP_NOT_FOUND);
+                $this->response(array("message" => "All fields are needed", "status" => "0"), parent::HTTP_NOT_FOUND);
             }
         }
     }   
@@ -140,15 +138,15 @@ class manage_parent extends REST_Controller{
             if($vfc){
                 if(!empty($this->manage_parent_model->find_by_id($data->parent_id))){
                     if($this->manage_parent_model->delete_parent($data->parent_id)){
-                        $this->response(array("message" => "Parent has been deleted"), parent::HTTP_OK);
+                        $this->response(array("message" => "Parent has been deleted", "status" => "1"), parent::HTTP_OK);
                     }else{
-                        $this->response(array("message" => "Failed to delete parent"), parent::HTTP_INTERNAL_SERVER_ERROR);
+                        $this->response(array("message" => "Failed to delete parent", "status" => "0"), parent::HTTP_INTERNAL_SERVER_ERROR);
                     }
                 } else {
-                    $this->response(array("message" => "Parent doesn't exist"), parent::HTTP_NOT_FOUND);
+                    $this->response(array("message" => "Parent doesn't exist", "status" => "0"), parent::HTTP_NOT_FOUND);
                 }
             } else {
-                $this->response(array("message" => "Parent id is needed"), parent::HTTP_NOT_FOUND);
+                $this->response(array("message" => "Parent id is needed", "status" => "0"), parent::HTTP_NOT_FOUND);
             }
         }
     } 

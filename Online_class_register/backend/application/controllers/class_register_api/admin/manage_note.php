@@ -36,21 +36,21 @@ class manage_note extends REST_Controller{
                         );
                         if(manage_note::validateInput($note_data)){
                             if($this->manage_note_model->create_note($note_data)){
-                                $this->response(array("message" => "Note has been created"), parent::HTTP_OK);
+                                $this->response(array("message" => "Note has been created", "status" => "1"), parent::HTTP_OK);
                             } else {
-                                $this->response(array("message" => "Failed to create note"), parent::HTTP_INTERNAL_SERVER_ERROR);
+                                $this->response(array("message" => "Failed to create note", "status" => "0"), parent::HTTP_INTERNAL_SERVER_ERROR);
                             }
                         } else {
-                            $this->response(array("message" => "Thread detected, terminate request"), parent::HTTP_BAD_REQUEST);
+                            $this->response(array("message" => "Thread detected, terminate request", "status" => "0"), parent::HTTP_BAD_REQUEST);
                         }
                     } else {
-                        $this->response(array("message" => "Teacher does not exist"), parent::HTTP_NOT_FOUND);
+                        $this->response(array("message" => "Teacher does not exist", "status" => "0"), parent::HTTP_NOT_FOUND);
                     }
                 } else {
-                    $this->response(array("message" => "Student does not exist"), parent::HTTP_CONFLICT);
+                    $this->response(array("message" => "Student does not exist", "status" => "0"), parent::HTTP_CONFLICT);
                 }
             } else {
-                $this->response(array("message" => "All fields are needed"), parent::HTTP_NOT_FOUND);
+                $this->response(array("message" => "All fields are needed", "status" => "0"), parent::HTTP_NOT_FOUND);
             }
         }
     }
@@ -73,10 +73,8 @@ class manage_note extends REST_Controller{
 
         if(manage_note::tokenAccessValidation("Administrator")){
 
-            $data = json_decode(file_get_contents("php://input"));
-
-            if(isset($data->note_id)){
-                $note_data = $this->manage_note_model->get_note($data->note_id);
+            if(isset($_GET['id'])){
+                $note_data = $this->manage_note_model->get_note($_GET['id']);
     
                 if(count($note_data) > 0){
                     $this->response(array("message" => "Note data", "data" => $note_data), parent::HTTP_OK);
@@ -108,21 +106,21 @@ class manage_note extends REST_Controller{
                         );
                         if(manage_note::validateInput($note_data)){
                             if($this->manage_note_model->update_note($data->note_id, $note_data)){
-                                $this->response(array("message" => "Note has been updated"), parent::HTTP_OK);
+                                $this->response(array("message" => "Note has been updated", "status" => "1"), parent::HTTP_OK);
                             } else {
-                                $this->response(array("message" => "Failed to update note"), parent::HTTP_INTERNAL_SERVER_ERROR);
+                                $this->response(array("message" => "Failed to update note", "status" => "0"), parent::HTTP_INTERNAL_SERVER_ERROR);
                             }
                         } else {
-                            $this->response(array("message" => "Thread detected, terminate request"), parent::HTTP_BAD_REQUEST);
+                            $this->response(array("message" => "Thread detected, terminate request", "status" => "0"), parent::HTTP_BAD_REQUEST);
                         }
                     } else {
-                        $this->response(array("message" => "Teacher does not exist"), parent::HTTP_NOT_FOUND);
+                        $this->response(array("message" => "Teacher does not exist", "status" => "0"), parent::HTTP_NOT_FOUND);
                     }
                 } else {
-                    $this->response(array("message" => "Student does not exist"), parent::HTTP_NOT_FOUND);
+                    $this->response(array("message" => "Student does not exist", "status" => "0"), parent::HTTP_NOT_FOUND);
                 }
             } else {
-                $this->response(array("message" => "All fields are needed"), parent::HTTP_NOT_FOUND);
+                $this->response(array("message" => "All fields are needed", "status" => "0"), parent::HTTP_NOT_FOUND);
             }
         }
     }   
@@ -138,15 +136,15 @@ class manage_note extends REST_Controller{
             if($vfc){
                 if(!empty($this->manage_note_model->find_by_id($data->note_id))){
                     if($this->manage_note_model->delete_note($data->note_id)){
-                        $this->response(array("message" => "Note has been deleted"), parent::HTTP_OK);
+                        $this->response(array("message" => "Note has been deleted", "status" => "1"), parent::HTTP_OK);
                     }else{
-                        $this->response(array("message" => "Failed to delete note"), parent::HTTP_INTERNAL_SERVER_ERROR);
+                        $this->response(array("message" => "Failed to delete note", "status" => "0"), parent::HTTP_INTERNAL_SERVER_ERROR);
                     }
                 } else {
-                    $this->response(array("message" => "Note doesn't exist"), parent::HTTP_NOT_FOUND);
+                    $this->response(array("message" => "Note doesn't exist", "status" => "0"), parent::HTTP_NOT_FOUND);
                 }
             } else {
-                $this->response(array("message" => "Note id is needed"), parent::HTTP_NOT_FOUND);
+                $this->response(array("message" => "Note id is needed", "status" => "0"), parent::HTTP_NOT_FOUND);
             }
         }
     } 

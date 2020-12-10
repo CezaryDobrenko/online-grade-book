@@ -35,18 +35,18 @@ class manage_grades_category extends REST_Controller{
                     );
                     if(manage_grades_category::validateInput($grade_category_data)){
                         if($this->manage_grades_category_model->create_grade_category($grade_category_data)){
-                            $this->response(array("message" => "Category has been created"), parent::HTTP_OK);
+                            $this->response(array("message" => "Category has been created", "status" => "1"), parent::HTTP_OK);
                         } else {
-                            $this->response(array("message" => "Failed to create category"), parent::HTTP_INTERNAL_SERVER_ERROR);
+                            $this->response(array("message" => "Failed to create category", "status" => "0"), parent::HTTP_INTERNAL_SERVER_ERROR);
                         }
                     } else {
-                        $this->response(array("message" => "Thread detected, terminate request"), parent::HTTP_BAD_REQUEST);
+                        $this->response(array("message" => "Thread detected, terminate request", "status" => "0"), parent::HTTP_BAD_REQUEST);
                     }
                 } else {
-                    $this->response(array("message" => "Category name already exists"), parent::HTTP_CONFLICT);
+                    $this->response(array("message" => "Category name already exists", "status" => "0"), parent::HTTP_CONFLICT);
                 }
             } else {
-                $this->response(array("message" => "All fields are needed"), parent::HTTP_NOT_FOUND);
+                $this->response(array("message" => "All fields are needed", "status" => "0"), parent::HTTP_NOT_FOUND);
             }
         }
     }
@@ -69,10 +69,8 @@ class manage_grades_category extends REST_Controller{
 
         if(manage_grades_category::tokenAccessValidation("Administrator")){
 
-            $data = json_decode(file_get_contents("php://input"));
-
-            if(isset($data->grade_category_id)){
-                $grade_category_data = $this->manage_grades_category_model->get_grade_category($data->grade_category_id);
+            if(isset($_GET['id'])){
+                $grade_category_data = $this->manage_grades_category_model->get_grade_category($_GET['id']);
     
                 if(count($grade_category_data) > 0){
                     $this->response(array("message" => "Category data", "data" => $grade_category_data), parent::HTTP_OK);
@@ -104,21 +102,21 @@ class manage_grades_category extends REST_Controller{
                         );
                         if(manage_grades_category::validateInput($grade_category_data)){
                             if($this->manage_grades_category_model->update_grade_category($data->grade_category_id, $grade_category_data)){
-                                $this->response(array("message" => "Category has been updated"), parent::HTTP_OK);
+                                $this->response(array("message" => "Category has been updated", "status" => "1"), parent::HTTP_OK);
                             } else {
-                                $this->response(array("message" => "Failed to update category"), parent::HTTP_INTERNAL_SERVER_ERROR);
+                                $this->response(array("message" => "Failed to update category", "status" => "0"), parent::HTTP_INTERNAL_SERVER_ERROR);
                             }
                         } else {
-                            $this->response(array("message" => "Thread detected, terminate request"), parent::HTTP_BAD_REQUEST);
+                            $this->response(array("message" => "Thread detected, terminate request", "status" => "0"), parent::HTTP_BAD_REQUEST);
                         }
                     } else {
-                        $this->response(array("message" => "Category name has been taken"), parent::HTTP_NOT_FOUND);
+                        $this->response(array("message" => "Category name has been taken", "status" => "0"), parent::HTTP_NOT_FOUND);
                     }
                 } else {
-                    $this->response(array("message" => "Categoty does not exist"), parent::HTTP_CONFLICT);
+                    $this->response(array("message" => "Categoty does not exist", "status" => "0"), parent::HTTP_CONFLICT);
                 }
             } else {
-                $this->response(array("message" => "All fields are needed"), parent::HTTP_NOT_FOUND);
+                $this->response(array("message" => "All fields are needed", "status" => "0"), parent::HTTP_NOT_FOUND);
             }
         }
     }   
@@ -134,15 +132,15 @@ class manage_grades_category extends REST_Controller{
             if($vfc){
                 if(!empty($this->manage_grades_category_model->find_by_id($data->grade_category_id))){
                     if($this->manage_grades_category_model->delete_grade_category($data->grade_category_id)){
-                        $this->response(array("message" => "Categoty has been deleted"), parent::HTTP_OK);
+                        $this->response(array("message" => "Categoty has been deleted", "status" => "1"), parent::HTTP_OK);
                     }else{
-                        $this->response(array("message" => "Failed to delete teacher"), parent::HTTP_INTERNAL_SERVER_ERROR);
+                        $this->response(array("message" => "Failed to delete teacher", "status" => "0"), parent::HTTP_INTERNAL_SERVER_ERROR);
                     }
                 } else {
-                    $this->response(array("message" => "Categoty doesn't exist"), parent::HTTP_NOT_FOUND);
+                    $this->response(array("message" => "Categoty doesn't exist", "status" => "0"), parent::HTTP_NOT_FOUND);
                 }
             } else {
-                $this->response(array("message" => "Categoty id is needed"), parent::HTTP_NOT_FOUND);
+                $this->response(array("message" => "Categoty id is needed", "status" => "0"), parent::HTTP_NOT_FOUND);
             }
         }
     } 

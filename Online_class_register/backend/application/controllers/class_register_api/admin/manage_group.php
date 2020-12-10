@@ -36,18 +36,18 @@ class manage_group extends REST_Controller{
                     );
                     if(manage_group::validateInput($group_data)){
                         if($this->manage_group_model->create_group($group_data)){
-                            $this->response(array("message" => "Group has been created"), parent::HTTP_OK);
+                            $this->response(array("message" => "Group has been created", "status" => "1"), parent::HTTP_OK);
                         } else {
-                            $this->response(array("message" => "Failed to create group"), parent::HTTP_INTERNAL_SERVER_ERROR);
+                            $this->response(array("message" => "Failed to create group", "status" => "0"), parent::HTTP_INTERNAL_SERVER_ERROR);
                         }
                     } else {
-                        $this->response(array("message" => "Thread detected, terminate request"), parent::HTTP_BAD_REQUEST);
+                        $this->response(array("message" => "Thread detected, terminate request", "status" => "0"), parent::HTTP_BAD_REQUEST);
                     }
                 } else {
-                    $this->response(array("message" => "Group name is already exist"), parent::HTTP_CONFLICT);
+                    $this->response(array("message" => "Group name is already exist", "status" => "0"), parent::HTTP_CONFLICT);
                 }
             } else {
-                $this->response(array("message" => "All fields are needed"), parent::HTTP_NOT_FOUND);
+                $this->response(array("message" => "All fields are needed", "status" => "0"), parent::HTTP_NOT_FOUND);
             }
         }
     }
@@ -72,8 +72,8 @@ class manage_group extends REST_Controller{
 
             $data = json_decode(file_get_contents("php://input"));
 
-            if(isset($data->group_id)){
-                $group_data = $this->manage_group_model->get_group($data->group_id);
+            if(isset($_GET['id'])){
+                $group_data = $this->manage_group_model->get_group($_GET['id']);
     
                 if(count($group_data) > 0){
                     $this->response(array("message" => "Group data", "data" => $group_data), parent::HTTP_OK);
@@ -105,18 +105,18 @@ class manage_group extends REST_Controller{
                     );
                     if(manage_group::validateInput($group_data)){
                         if($this->manage_group_model->update_group($data->group_id, $group_data)){
-                            $this->response(array("message" => "Group has been updated"), parent::HTTP_OK);
+                            $this->response(array("message" => "Group has been updated", "status" => "1"), parent::HTTP_OK);
                         } else {
-                            $this->response(array("message" => "Failed to update group"), parent::HTTP_INTERNAL_SERVER_ERROR);
+                            $this->response(array("message" => "Failed to update group", "status" => "0"), parent::HTTP_INTERNAL_SERVER_ERROR);
                         }
                     } else {
-                        $this->response(array("message" => "Thread detected, terminate request"), parent::HTTP_BAD_REQUEST);
+                        $this->response(array("message" => "Thread detected, terminate request", "status" => "0"), parent::HTTP_BAD_REQUEST);
                     }
                 } else {
-                    $this->response(array("message" => "Group name already exists"), parent::HTTP_CONFLICT);
+                    $this->response(array("message" => "Group name already exists", "status" => "0"), parent::HTTP_CONFLICT);
                 }
             } else {
-                $this->response(array("message" => "All fields are needed"), parent::HTTP_NOT_FOUND);
+                $this->response(array("message" => "All fields are needed", "status" => "0"), parent::HTTP_NOT_FOUND);
             }
         }
     }   
@@ -132,15 +132,15 @@ class manage_group extends REST_Controller{
             if($vfc){
                 if(!empty($this->manage_group_model->find_by_id($data->group_id))){
                     if($this->manage_group_model->delete_group($data->group_id)){
-                        $this->response(array("message" => "Group has been deleted"), parent::HTTP_OK);
+                        $this->response(array("message" => "Group has been deleted", "status" => "1"), parent::HTTP_OK);
                     }else{
-                        $this->response(array("message" => "Failed to delete group"), parent::HTTP_INTERNAL_SERVER_ERROR);
+                        $this->response(array("message" => "Failed to delete group", "status" => "0"), parent::HTTP_INTERNAL_SERVER_ERROR);
                     }
                 } else {
-                    $this->response(array("message" => "Group doesn't exist"), parent::HTTP_NOT_FOUND);
+                    $this->response(array("message" => "Group doesn't exist", "status" => "0"), parent::HTTP_NOT_FOUND);
                 }
             } else {
-                $this->response(array("message" => "Group id is needed"), parent::HTTP_NOT_FOUND);
+                $this->response(array("message" => "Group id is needed", "status" => "0"), parent::HTTP_NOT_FOUND);
             }
         }
     } 

@@ -20,7 +20,7 @@ class personal_absence extends REST_Controller{
 
     //Read absence
     public function read_absence_get(){
-        if(personal_absence::tokenAccessValidation("Student","Rodzic")){
+        if(personal_absence::tokenAccessValidation("Student","Parent")){
             $headers = $this->input->request_headers();
             $token = $headers['Authorization'];
             $decoded_token = authorization::validateToken($token);
@@ -36,7 +36,7 @@ class personal_absence extends REST_Controller{
 
     //Read single absence
     public function read_single_absence_get(){
-        if(personal_absence::tokenAccessValidation("Student","Rodzic")){
+        if(personal_absence::tokenAccessValidation("Student","Parent")){
             $data = json_decode(file_get_contents("php://input"));
             if(isset($data->absence_id)){
                 $headers = $this->input->request_headers();

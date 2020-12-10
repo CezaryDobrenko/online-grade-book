@@ -37,21 +37,21 @@ class manage_absence extends REST_Controller{
                         );
                         if(manage_absence::validateInput($absence_data)){
                             if($this->manage_absence_model->create_absence($absence_data)){
-                                $this->response(array("message" => "Absence has been created"), parent::HTTP_OK);
+                                $this->response(array("message" => "Absence has been created", "status" => "1"), parent::HTTP_OK);
                             } else {
-                                $this->response(array("message" => "Failed to create absence"), parent::HTTP_INTERNAL_SERVER_ERROR);
+                                $this->response(array("message" => "Failed to create absence", "status" => "0"), parent::HTTP_INTERNAL_SERVER_ERROR);
                             }
                         } else {
-                            $this->response(array("message" => "Thread detected, terminate request"), parent::HTTP_BAD_REQUEST);
+                            $this->response(array("message" => "Thread detected, terminate request", "status" => "0"), parent::HTTP_BAD_REQUEST);
                         }
                    } else {
-                        $this->response(array("message" => "Student does not exist"), parent::HTTP_CONFLICT);
+                        $this->response(array("message" => "Student does not exist", "status" => "0"), parent::HTTP_CONFLICT);
                    }
                 } else {
-                    $this->response(array("message" => "Teacher does not exist"), parent::HTTP_CONFLICT);
+                    $this->response(array("message" => "Teacher does not exist", "status" => "0"), parent::HTTP_CONFLICT);
                 }
             } else {
-                $this->response(array("message" => "All fields are needed"), parent::HTTP_NOT_FOUND);
+                $this->response(array("message" => "All fields are needed", "status" => "0"), parent::HTTP_NOT_FOUND);
             }
         }
     }
@@ -74,10 +74,8 @@ class manage_absence extends REST_Controller{
 
         if(manage_absence::tokenAccessValidation("Administrator")){
 
-            $data = json_decode(file_get_contents("php://input"));
-
-            if(isset($data->absence_id)){
-                $absence_data = $this->manage_absence_model->get_absence($data->absence_id);
+            if(isset($_GET['id'])){
+                $absence_data = $this->manage_absence_model->get_absence($_GET['id']);
     
                 if(count($absence_data) > 0){
                     $this->response(array("message" => "Absence data", "data" => $absence_data), parent::HTTP_OK);
@@ -110,21 +108,21 @@ class manage_absence extends REST_Controller{
                         );
                         if(manage_absence::validateInput($absence_data)){
                             if($this->manage_absence_model->update_absence($data->absence_id, $absence_data)){
-                                $this->response(array("message" => "Absence has been updated"), parent::HTTP_OK);
+                                $this->response(array("message" => "Absence has been updated", "status" => "1"), parent::HTTP_OK);
                             } else {
-                                $this->response(array("message" => "Failed to update absence"), parent::HTTP_INTERNAL_SERVER_ERROR);
+                                $this->response(array("message" => "Failed to update absence", "status" => "0"), parent::HTTP_INTERNAL_SERVER_ERROR);
                             }
                         } else {
-                            $this->response(array("message" => "Thread detected, terminate request"), parent::HTTP_BAD_REQUEST);
+                            $this->response(array("message" => "Thread detected, terminate request", "status" => "0"), parent::HTTP_BAD_REQUEST);
                         }
                    } else {
-                        $this->response(array("message" => "Student does not exist"), parent::HTTP_CONFLICT);
+                        $this->response(array("message" => "Student does not exist", "status" => "0"), parent::HTTP_CONFLICT);
                    }
                 } else {
-                    $this->response(array("message" => "Teacher does not exist"), parent::HTTP_CONFLICT);
+                    $this->response(array("message" => "Teacher does not exist", "status" => "0"), parent::HTTP_CONFLICT);
                 }
             } else {
-                $this->response(array("message" => "All fields are needed"), parent::HTTP_NOT_FOUND);
+                $this->response(array("message" => "All fields are needed", "status" => "0"), parent::HTTP_NOT_FOUND);
             }
         }
     }   
@@ -140,15 +138,15 @@ class manage_absence extends REST_Controller{
             if($vfc){
                 if(!empty($this->manage_absence_model->find_by_id($data->absence_id))){
                     if($this->manage_absence_model->delete_absence($data->absence_id)){
-                        $this->response(array("message" => "Absence has been deleted"), parent::HTTP_OK);
+                        $this->response(array("message" => "Absence has been deleted", "status" => "1"), parent::HTTP_OK);
                     }else{
-                        $this->response(array("message" => "Failed to delete absence"), parent::HTTP_INTERNAL_SERVER_ERROR);
+                        $this->response(array("message" => "Failed to delete absence", "status" => "0"), parent::HTTP_INTERNAL_SERVER_ERROR);
                     }
                 } else {
-                    $this->response(array("message" => "Absence doesn't exist"), parent::HTTP_NOT_FOUND);
+                    $this->response(array("message" => "Absence doesn't exist", "status" => "0"), parent::HTTP_NOT_FOUND);
                 }
             } else {
-                $this->response(array("message" => "Absence id is needed"), parent::HTTP_NOT_FOUND);
+                $this->response(array("message" => "Absence id is needed", "status" => "0"), parent::HTTP_NOT_FOUND);
             }
         }
     } 
