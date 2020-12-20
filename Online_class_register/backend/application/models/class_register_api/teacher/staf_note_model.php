@@ -18,16 +18,15 @@ class staf_note_model extends CI_Model{
     public function get_all_note($teacher_id){
         $this->db->select('tn.note_id,tn.note_comment,tn.note_created_at, CONCAT( ts.student_name, " ", ts.student_surname ) AS note_student');
         $this->db->from("tbl_notes AS tn");
-        $this->db->join('tbl_students AS ts','ts.student_id = tn.note_student_id');
+        $this->db->join('tbl_students AS ts','ts.student_id = tn.note_student_id', 'left');
         $this->db->where("note_teacher_id",$teacher_id);
         $query = $this->db->get();
         return $query->result();
     }
 
     public function get_note($note_id){
-        $this->db->select('tn.note_id,tn.note_comment,tn.note_created_at, CONCAT( ts.student_name, " ", ts.student_surname ) AS note_student');
-        $this->db->from("tbl_notes AS tn");
-        $this->db->join('tbl_students AS ts','ts.student_id = tn.note_student_id');
+        $this->db->select("note_id, note_comment, note_student_id");
+        $this->db->from("tbl_notes");
         $this->db->where("note_id",$note_id);
         $query = $this->db->get();
         return $query->result();

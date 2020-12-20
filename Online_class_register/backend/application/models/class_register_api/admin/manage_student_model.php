@@ -15,8 +15,9 @@ class manage_student_model extends CI_Model{
     }
 
     public function get_all_students(){
-        $this->db->select("*");
-        $this->db->from("tbl_students");
+        $this->db->select("a.student_id, a.student_email, a.student_password, a.student_name, a.student_surname, a.student_is_active, b.group_short_name");
+        $this->db->from("tbl_students as a");
+		$this->db->join('tbl_groups as b', 'student_group_id = group_id', 'left');
         $query = $this->db->get();
         return $query->result();
     }

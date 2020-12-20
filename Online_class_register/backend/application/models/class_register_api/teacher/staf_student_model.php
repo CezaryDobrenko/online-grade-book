@@ -10,16 +10,9 @@ class staf_student_model extends CI_Model{
     }
 
     public function get_all_student(){
-        $this->db->select('student_id, student_name, student_surname');
-        $this->db->from("tbl_students");
-        $query = $this->db->get();
-        return $query->result();
-    }
-
-    public function get_by_group_student($group_id){
-        $this->db->select('student_id, student_name, student_surname');
-        $this->db->from("tbl_students");
-        $this->db->where("student_group_id",$group_id);
+        $this->db->select('ts.student_id, ts.student_name, ts.student_surname, ts.student_email, gs.group_name, gs.group_short_name');
+        $this->db->from("tbl_students AS ts");
+        $this->db->join('tbl_groups AS gs','ts.student_group_id = gs.group_id', 'left');
         $query = $this->db->get();
         return $query->result();
     }

@@ -6,7 +6,8 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="/front/assets/css/main.css" />
 		<script src="/front/assets/js/accessPermission/class.accessPermision.js"></script>
-		<script src="/front/assets/js/accessPermission/accessPermisionTeacher.js"></script>
+		<script src="/front/assets/js/accessPermission/accessPermisionAdministrator.js"></script>
+		<script src="/front/assets/js/crudDefault/class.crudDefault.js"></script>
 	</head>
 	<body class="is-preload">
 
@@ -26,8 +27,42 @@
 										<li><a href="http://www.instagram.com/" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
 									</ul>
 								</header>
-								Only Teacher can see this site
-								
+							
+							
+							<!-- Content -->
+
+								<section>
+									<div class="row">
+										<div class="col-4 col-12-medium"></div>
+										<div class="col-4 col-12-medium">
+											<header class="major"><h3>Assign subject to teacher:</h3></header>
+											
+												<!-- Form -->
+													<form method="post" action="">
+														<div class="row gtr-uniform">
+															<div class="col-12">
+																<label for="subject_has_teacher_teacher_id">Choose teacher:</label>
+																<select name="subject_has_teacher_teacher_id" id="subject_has_teacher_teacher_id"></select>
+															</div>
+															<div class="col-12">
+																<label for="subject_has_teacher_subject_id">Choose subject:</label>
+																<select name="subject_has_teacher_subject_id" id="subject_has_teacher_subject_id"></select>
+															</div>
+															<!-- Break -->
+															<div class="col-12">
+																<ul class="actions fit">
+																	<li><a href="#" class="button primary fit" onclick="initialize()">Create</a></li>
+																	<li><a href="#" class="button primary fit" onclick="redirect()">Back</a></li>
+																</ul>
+															</div>
+														</div>
+													</form>
+											
+										</div>
+										<div class="col-4 col-12-medium"></div>
+									</div>
+								</section>
+
 						</div>
 					</div>
 
@@ -92,6 +127,18 @@
 			<script src="/front/assets/js/breakpoints.min.js"></script>
 			<script src="/front/assets/js/util.js"></script>
 			<script src="/front/assets/js/main.js"></script>
-
+			<script src="/front/assets/js/sweetalert.min.js"></script>
+			<script src="/front/assets/js/customMenu/class.customMenu.js"></script>
+			<script src="/front/assets/js/customMenu/customMenu.js"></script>
+			<script src="/front/assets/js/customField/read.js"></script>
+			<script src="/front/assets/js/crudDefault/create.js"></script>
+			<script>
+				//CUSTOM VARIABLES
+				const path = "http://127.0.0.1/dashboard/backend/index.php/class_register_api/admin/manage_teacher_subject/create_teacher_subject"
+				returnPath = "/front/site/dashboard/teacher_subjects/read.html"
+				addDataToField("http://127.0.0.1/dashboard/backend/index.php/class_register_api/admin/manage_subject/read_subject", "subject_id",["subject_name"],"subject_has_teacher_subject_id", false);
+				addDataToField("http://127.0.0.1/dashboard/backend/index.php/class_register_api/admin/manage_teacher/read_teacher", "teacher_id",["teacher_name", "teacher_surname","teacher_email"],"subject_has_teacher_teacher_id", false)
+				//END CUSTOM VARIABLES
+			</script>
 	</body>
 </html>

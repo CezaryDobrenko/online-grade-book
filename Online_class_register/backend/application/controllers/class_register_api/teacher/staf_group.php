@@ -20,7 +20,7 @@ class staf_group extends REST_Controller{
 
     //Read teacher subject
     public function read_group_get(){
-        if(staf_group::tokenAccessValidation("Nauczyciel","Dyrektor")){
+        if(staf_group::tokenAccessValidation("Teacher","Headmaster")){
             $group_data = $this->staf_group_model->get_all_group();
             if(count($group_data) > 0){
                 $this->response(array("message" => "Group list", "data" => $group_data), parent::HTTP_OK);

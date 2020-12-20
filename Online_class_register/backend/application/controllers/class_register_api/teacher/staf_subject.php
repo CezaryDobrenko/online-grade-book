@@ -20,7 +20,7 @@ class staf_subject extends REST_Controller{
 
     //Read teacher subject
     public function read_subject_get(){
-        if(staf_subject::tokenAccessValidation("Nauczyciel","Dyrektor")){
+        if(staf_subject::tokenAccessValidation("Teacher","Headmaster")){
             $headers = $this->input->request_headers();
             $token = $headers['Authorization'];
             $decoded_token = authorization::validateToken($token);

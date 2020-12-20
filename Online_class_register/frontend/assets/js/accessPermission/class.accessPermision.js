@@ -11,7 +11,7 @@ class AccessPermision {
 	teacherAccess(){
 		if(localStorage.getItem("login")){
 			let role = JSON.parse(localStorage.getItem("login")).role;
-			if(role == "Nauczyciel" || role == "Dyrektor")
+			if(role == "Teacher" || role == "Headmaster")
 				return;
 		}
 		this.go_back();

@@ -16,8 +16,9 @@ class manage_teacher_model extends CI_Model{
     }
 
     public function get_all_teachers(){
-        $this->db->select("*");
-        $this->db->from("tbl_teachers");
+        $this->db->select("a.teacher_id, a.teacher_email, a.teacher_password, a.teacher_name, a.teacher_surname, a.teacher_is_active, a.teacher_role, b.group_short_name");
+        $this->db->from("tbl_teachers as a");
+		$this->db->join('tbl_groups as b', 'teacher_group = group_id', 'left');
         $query = $this->db->get();
         return $query->result();
     }

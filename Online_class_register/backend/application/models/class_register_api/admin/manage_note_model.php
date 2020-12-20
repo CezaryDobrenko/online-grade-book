@@ -16,8 +16,10 @@ class manage_note_model extends CI_Model{
     }
 
     public function get_all_note(){
-        $this->db->select("*");
-        $this->db->from("tbl_notes");
+        $this->db->select("a.note_id, a.note_comment, a.note_created_at, b.student_email, c.teacher_email");
+        $this->db->from("tbl_notes as a");
+		$this->db->join('tbl_students as b', 'note_student_id = student_id', 'left');
+		$this->db->join('tbl_teachers as c', 'note_teacher_id = teacher_id', 'left');
         $query = $this->db->get();
         return $query->result();
     }

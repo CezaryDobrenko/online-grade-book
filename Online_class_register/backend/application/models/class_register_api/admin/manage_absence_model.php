@@ -16,8 +16,10 @@ class manage_absence_model extends CI_Model{
     }
 
     public function get_all_absence(){
-        $this->db->select("*");
-        $this->db->from("tbl_absence");
+        $this->db->select("a.absence_id, a.absence_lesson_number, a.absence_date, a.absence_created_at, b.teacher_email, c.student_email");
+        $this->db->from("tbl_absence as a");
+		$this->db->join('tbl_teachers as b', 'absence_teacher_id = teacher_id', 'left');
+		$this->db->join('tbl_students as c', 'absence_student_id = student_id', 'left');
         $query = $this->db->get();
         return $query->result();
     }

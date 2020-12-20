@@ -21,6 +21,7 @@
 		var dict = {};
 		for (var pair of formData.entries())
 		  dict[pair[0]] = pair[1];
+	    console.log(dict);
 		update(path,dict);
 	}
 	
@@ -39,7 +40,8 @@
 		.then(output => {
 			const formData = new FormData(document.querySelector('form'))
 			for (var pair of formData.entries())
-				document.getElementById(pair[0]).value = output.data[0][pair[0]];
+				if(document.getElementById(pair[0]).value == "")
+					document.getElementById(pair[0]).value = output.data[0][pair[0]];
 		})
 	}
 	

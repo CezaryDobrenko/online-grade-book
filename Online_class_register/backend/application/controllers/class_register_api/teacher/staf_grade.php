@@ -20,7 +20,7 @@ class staf_grade extends REST_Controller{
 
     //Create grade
     public function create_grade_post(){
-        if(staf_grade::tokenAccessValidation("Nauczyciel","Dyrektor")){
+        if(staf_grade::tokenAccessValidation("Teacher","Headmaster")){
             $headers = $this->input->request_headers();
             $token = $headers['Authorization'];
             $decoded_token = authorization::validateToken($token);
@@ -44,37 +44,37 @@ class staf_grade extends REST_Controller{
                                     );
                                     if(staf_grade::validateInput($grade_data)){
                                         if($this->staf_grade_model->create_grade($grade_data)){
-                                            $this->response(array("message" => "Grade has been created"), parent::HTTP_OK);
+                                            $this->response(array("message" => "Grade has been created", "status" => "1"), parent::HTTP_OK);
                                         } else {
-                                            $this->response(array("message" => "Failed to create grade"), parent::HTTP_INTERNAL_SERVER_ERROR);
+                                            $this->response(array("message" => "Failed to create grade", "status" => "0"), parent::HTTP_INTERNAL_SERVER_ERROR);
                                         }
                                     } else {
-                                        $this->response(array("message" => "Thread detected, terminate request"), parent::HTTP_BAD_REQUEST);
+                                        $this->response(array("message" => "Thread detected, terminate request", "status" => "0"), parent::HTTP_BAD_REQUEST);
                                     }
                                 } else {
-                                    $this->response(array("message" => "Student group does not have that subject"), parent::HTTP_CONFLICT);
+                                    $this->response(array("message" => "Student group does not have that subject", "status" => "0"), parent::HTTP_CONFLICT);
                                 }
                             } else {
-                                $this->response(array("message" => "Teacher does not have that subject"), parent::HTTP_CONFLICT);
+                                $this->response(array("message" => "Teacher does not have that subject", "status" => "0"), parent::HTTP_CONFLICT);
                             }
                         } else {
-                            $this->response(array("message" => "Student does not exist"), parent::HTTP_NOT_FOUND);
+                            $this->response(array("message" => "Student does not exist", "status" => "0"), parent::HTTP_NOT_FOUND);
                         }
                     } else {
-                        $this->response(array("message" => "Subject does not exist"), parent::HTTP_NOT_FOUND);
+                        $this->response(array("message" => "Subject does not exist", "status" => "0"), parent::HTTP_NOT_FOUND);
                     }
                 } else {
-                    $this->response(array("message" => "Category does not exist"), parent::HTTP_NOT_FOUND);
+                    $this->response(array("message" => "Category does not exist", "status" => "0"), parent::HTTP_NOT_FOUND);
                 }
             } else {
-                $this->response(array("message" => "All fields are needed"), parent::HTTP_NOT_FOUND);
+                $this->response(array("message" => "All fields are needed", "status" => "0"), parent::HTTP_NOT_FOUND);
             }
         }       
     }
 
     //Read grade
     public function read_grade_get(){
-        if(staf_grade::tokenAccessValidation("Nauczyciel","Dyrektor")){
+        if(staf_grade::tokenAccessValidation("Teacher","Headmaster")){
             $headers = $this->input->request_headers();
             $token = $headers['Authorization'];
             $decoded_token = authorization::validateToken($token);
@@ -90,13 +90,12 @@ class staf_grade extends REST_Controller{
 
     //Read single grade
     public function read_single_grade_get(){
-        if(staf_grade::tokenAccessValidation("Nauczyciel","Dyrektor")){
-            $data = json_decode(file_get_contents("php://input"));
-            if(isset($data->grade_id)){
-                $headers = $this->input->request_headers();
-                $token = $headers['Authorization'];
-                $decoded_token = authorization::validateToken($token);
-                $grade_data = $this->staf_grade_model->get_grade($data->grade_id);
+
+        if(staf_grade::tokenAccessValidation("Teacher","Headmaster")){
+
+            if(isset($_GET['id'])){
+                $grade_data = $this->staf_grade_model->get_grade($_GET['id']);
+    
                 if(count($grade_data) > 0){
                     $this->response(array("message" => "Grade data", "data" => $grade_data), parent::HTTP_OK);
                 } 
@@ -106,12 +105,12 @@ class staf_grade extends REST_Controller{
             } else {
                 $this->response(array("message" => "All field are needed"), parent::HTTP_NOT_FOUND);
             }
-        }       
+        }
     }
 
     //Update grade
     public function update_grade_put(){
-        if(staf_grade::tokenAccessValidation("Nauczyciel","Dyrektor")){
+        if(staf_grade::tokenAccessValidation("Teacher","Headmaster")){
             $headers = $this->input->request_headers();
             $token = $headers['Authorization'];
             $decoded_token = authorization::validateToken($token);
@@ -136,33 +135,33 @@ class staf_grade extends REST_Controller{
                                         );
                                         if(staf_grade::validateInput($grade_data)){
                                             if($this->staf_grade_model->update_grade($data->grade_id, $grade_data)){
-                                                $this->response(array("message" => "Grade has been updated"), parent::HTTP_OK);
+                                                $this->response(array("message" => "Grade has been updated", "status" => "1"), parent::HTTP_OK);
                                             } else {
-                                                $this->response(array("message" => "Failed to updated grade"), parent::HTTP_INTERNAL_SERVER_ERROR);
+                                                $this->response(array("message" => "Failed to updated grade", "status" => "0"), parent::HTTP_INTERNAL_SERVER_ERROR);
                                             }
                                         } else {
-                                            $this->response(array("message" => "Thread detected, terminate request"), parent::HTTP_BAD_REQUEST);
+                                            $this->response(array("message" => "Thread detected, terminate request", "status" => "0"), parent::HTTP_BAD_REQUEST);
                                         }
                                     } else {
-                                        $this->response(array("message" => "Teacher did not create this grade"), parent::HTTP_CONFLICT);
+                                        $this->response(array("message" => "Teacher did not create this grade", "status" => "0"), parent::HTTP_CONFLICT);
                                     }
                                 } else {
-                                    $this->response(array("message" => "Student group does not have that subject"), parent::HTTP_CONFLICT);
+                                    $this->response(array("message" => "Student group does not have that subject", "status" => "0"), parent::HTTP_CONFLICT);
                                 }
                             } else {
-                                $this->response(array("message" => "Teacher does not have that subject"), parent::HTTP_CONFLICT);
+                                $this->response(array("message" => "Teacher does not have that subject", "status" => "0"), parent::HTTP_CONFLICT);
                             }
                         } else {
-                            $this->response(array("message" => "Student does not exist"), parent::HTTP_NOT_FOUND);
+                            $this->response(array("message" => "Student does not exist", "status" => "0"), parent::HTTP_NOT_FOUND);
                         }
                     } else {
-                        $this->response(array("message" => "Subject does not exist"), parent::HTTP_NOT_FOUND);
+                        $this->response(array("message" => "Subject does not exist", "status" => "0"), parent::HTTP_NOT_FOUND);
                     }
                 } else {
-                    $this->response(array("message" => "Category does not exist"), parent::HTTP_NOT_FOUND);
+                    $this->response(array("message" => "Category does not exist", "status" => "0"), parent::HTTP_NOT_FOUND);
                 }
             } else {
-                $this->response(array("message" => "All fields are needed"), parent::HTTP_NOT_FOUND);
+                $this->response(array("message" => "All fields are needed", "status" => "0"), parent::HTTP_NOT_FOUND);
             }
         }       
     }
@@ -170,7 +169,7 @@ class staf_grade extends REST_Controller{
     //Delete grade
     public function delete_grade_delete(){
 
-        if(staf_grade::tokenAccessValidation("Nauczyciel","Dyrektor")){
+        if(staf_grade::tokenAccessValidation("Teacher","Headmaster")){
 
             $headers = $this->input->request_headers();
             $token = $headers['Authorization'];
@@ -182,18 +181,18 @@ class staf_grade extends REST_Controller{
                 if(!empty($this->staf_grade_model->find_by_id($data->grade_id))){
                     if(!empty($this->staf_grade_model->is_teacher_creator($data->grade_id, $decoded_token->data->teacher_id))){
                         if($this->staf_grade_model->delete_grade($data->grade_id)){
-                            $this->response(array("message" => "Grade has been deleted"), parent::HTTP_OK);
+                            $this->response(array("message" => "Grade has been deleted", "status" => "1"), parent::HTTP_OK);
                         }else{
-                            $this->response(array("message" => "Failed to delete grade"), parent::HTTP_INTERNAL_SERVER_ERROR);
+                            $this->response(array("message" => "Failed to delete grade", "status" => "0"), parent::HTTP_INTERNAL_SERVER_ERROR);
                         }
                     } else {
-                        $this->response(array("message" => "Teacher did not create this grade"), parent::HTTP_CONFLICT);
+                        $this->response(array("message" => "Teacher did not create this grade", "status" => "0"), parent::HTTP_CONFLICT);
                     }
                 } else {
-                    $this->response(array("message" => "Grade doesn't exist"), parent::HTTP_NOT_FOUND);
+                    $this->response(array("message" => "Grade doesn't exist", "status" => "0"), parent::HTTP_NOT_FOUND);
                 }
             } else {
-                $this->response(array("message" => "Grade id is needed"), parent::HTTP_NOT_FOUND);
+                $this->response(array("message" => "Grade id is needed", "status" => "0"), parent::HTTP_NOT_FOUND);
             }
         }
     } 

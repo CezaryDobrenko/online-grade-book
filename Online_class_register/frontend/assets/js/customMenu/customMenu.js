@@ -16,10 +16,10 @@ function getMenu(){
 		  case 'Parent':
 			recived = menu.userMenu();
 			break;
-		  case 'Nauczyciel':
+		  case 'Teacher':
 			recived = menu.teacherMenu();
 			break;
-		  case 'Dyrektor':
+		  case 'Headmaster':
 			recived = menu.teacherMenu();
 			break;
 		  case 'Administrator':

@@ -4,18 +4,24 @@ async function readFromDatabase(){
 	responseData = data.read(path,token);
 	responseData.then(res => res.json())
 	.then(output => {
-		head  = generateTableHead(output,ignoreField);
-		content = generateTableBody(output,ignoreField);
-		document.getElementById("table_content").innerHTML = content;
-		var script = document.createElement("script");
-		script.innerHTML = 'document.getElementsByClassName("color_page")[0].click();';
-		document.body.appendChild(script);
+		if(output["message"] != "No data found"){
+			head  = generateTableHead(output,ignoreField);
+			content = generateTableBody(output,ignoreField);
+			document.getElementById("table_content").innerHTML = content;
+			var script = document.createElement("script");
+			script.innerHTML = 'document.getElementsByClassName("color_page")[0].click();';
+			script.innerHTML += 'document.getElementById("index_native").style.display = "";';
+			document.body.appendChild(script);
+		} else {
+			document.getElementById("table_content").innerHTML = '<br><br><header class="major"><h2>No data recived for this view</h2></header>';
+		}
 	})
 }
 
 function FilterTableRow(interstingWord) {
 	var input, filter, table, tr, td, i, txtValue;
-	filter = interstingWord.value.toUpperCase();
+	var words = interstingWord.value.split(/(\s+)/).filter( e => e.length > 1);
+	words = words.map(val => val.toUpperCase());
 	table = document.getElementById("table_content");
 	tr = table.getElementsByTagName("tr");
 
@@ -24,17 +30,19 @@ function FilterTableRow(interstingWord) {
 		for(j = 0; j < tr[i].getElementsByTagName("td").length; j++){
 			td = tr[i].getElementsByTagName("td")[j];
 			txtValue = td.textContent || td.innerText;
-			if(txtValue.toUpperCase().indexOf(filter) > -1){
-				counter++;
+			for(k = 0; k < words.length; k++){
+				if(txtValue.toUpperCase().indexOf(words[k]) > -1){
+					counter++;
+				}
 			}
 		}
-		if(counter > 0){
+		if(counter == words.length){
 			tr[i].style.display = "";
 		} else {
 			tr[i].style.display = "none";
 		}
 	}
-	if(filter == ""){
+	if(words.length == 0){
 		document.getElementsByClassName("color_page")[0].click();
 	}
 }
@@ -42,6 +50,7 @@ function FilterTableRow(interstingWord) {
 function generateTableHead(output,ignoreField){
 	table  = "<thead>";
 		table += "<tr>";
+			iterator = 0;
 			Object.keys(output.data[0]).forEach(e => {
 				counterH = 0;
 				for(j = 0; j < ignoreField.length; j++){
@@ -49,8 +58,10 @@ function generateTableHead(output,ignoreField){
 						counterH++;
 					}
 				}
-				if(counterH == ignoreField.length)
-					table += '<th>'+e;
+				if(counterH == ignoreField.length){
+					table += '<th>'+headersNames[iterator];
+					iterator++;
+				}
 			});
 			table += "<th>operations";
 		table += "</tr>";
@@ -72,8 +83,29 @@ function generateTableBody(output,ignoreField){
 						counterC++;
 					}
 				}
-				if(counterC == ignoreField.length)
-					table += '<td>'+output.data[i][e];
+				counterz = 0;
+				if(counterC == ignoreField.length){
+					table += '<td>';
+					if(output.data[i][e] != null){
+						for(k = 0; k < output.data[i][e].length; k++){
+							counterz++;
+							if(counterz > 15){
+								if(output.data[i][e][k] != ' ' && (counterz < 20 || output.data[i][e].length - counterz < 4)){
+									table += output.data[i][e][k]
+								}
+								else {
+									table += output.data[i][e][k] +"<br>";
+									counterz = 0;
+								}
+							}
+							else{
+								table += output.data[i][e][k]
+							}
+						}
+					} else {
+						table += "None";
+					}
+				}
 			});
 			table += `<td><a href="`+updatePath+`?id=`+output.data[i][key]+`">Update</a> 
 					      <a href="`+deletePath+`?id=`+output.data[i][key]+`">Delete</a>`;

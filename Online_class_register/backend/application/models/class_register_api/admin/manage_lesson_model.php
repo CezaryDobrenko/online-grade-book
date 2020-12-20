@@ -16,8 +16,10 @@ class manage_lesson_model extends CI_Model{
     }
 
     public function get_all_lesson(){
-        $this->db->select("*");
-        $this->db->from("tbl_groups_subjects");
+        $this->db->select("a.group_subject_id, b.subject_name, c.group_name");
+        $this->db->from("tbl_groups_subjects as a");
+		$this->db->join('tbl_subjects as b', 'group_subject_subject_id = subject_id', 'left');
+		$this->db->join('tbl_groups as c', 'group_subject_group_id = group_id', 'left');
         $query = $this->db->get();
         return $query->result();
     }

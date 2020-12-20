@@ -20,7 +20,7 @@ class staf_student extends REST_Controller{
 
     //Read teacher subject
     public function read_student_get(){
-        if(staf_student::tokenAccessValidation("Nauczyciel","Dyrektor")){
+        if(staf_student::tokenAccessValidation("Teacher","Headmaster")){
             $student_data = $this->staf_student_model->get_all_student();
             if(count($student_data) > 0){
                 $this->response(array("message" => "Student list", "data" => $student_data), parent::HTTP_OK);
@@ -31,24 +31,6 @@ class staf_student extends REST_Controller{
         }       
     }
  
-    //Read teacher subject
-    public function read_by_group_student_get(){
-        if(staf_student::tokenAccessValidation("Nauczyciel","Dyrektor")){
-            $data = json_decode(file_get_contents("php://input"));
-            if(isset($data->group_id)){
-                $student_data = $this->staf_student_model->get_by_group_student($data->group_id);
-                if(count($student_data) > 0){
-                    $this->response(array("message" => "Student list", "data" => $student_data), parent::HTTP_OK);
-                } 
-                else {
-                    $this->response(array("message" => "No data found"), parent::HTTP_NOT_FOUND);
-                }
-            } else {
-                $this->response(array("message" => "All field are needed"), parent::HTTP_NOT_FOUND);
-            }
-        }       
-    }
-
     //Token validation
     public function tokenAccessValidation($role, $role2){
 

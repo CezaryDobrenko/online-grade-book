@@ -39,9 +39,9 @@ Need further investigation about personal data security and role accessibility t
 
 Access level:
 Currently api have 4 permission levels:
-level 3: "Administrator" grant access to administrator endpoints
-level 2: "Dyrektor" or "Nauczyciel" grant access to teacher endpoints
-level 1: "Rodzic" or "Uczeń" grant access to user endpoints
+level 3: "Administrator" grant access to administrator endpoints and bellow
+level 2: "Headmaster" or "Teacher" grant access to teacher endpoints and bellow
+level 1: "Parent" or "Student" grant access to user endpoints and bellow
 level 0: Every unlogged user are granted access to login endpoints
 
 
@@ -161,7 +161,8 @@ staf_group:
 V - READ		reference_link(APPATCH/backend/index.php/class_register_api/teacher/staf_group/read_group)				method(GET)		
 staf_student:
 V - READ		reference_link(APPATCH/backend/index.php/class_register_api/teacher/staf_student/read_student)				method(GET)	
-V - READ_BY_GROUP	reference_link(APPATCH/backend/index.php/class_register_api/teacher/staf_student/read_by_group_student)			method(GET)	
+staf_grade_category:
+V - READ		reference_link(APPATCH/backend/index.php/class_register_api/teacher/staf_grade_category/read_grade_category)		method(GET)	
 
 =======================================
 Student/Parent endpoints
@@ -172,7 +173,7 @@ Acount with permision level: 1
 
 Purpose:
 Monitoring data and system accessibility
-Reporting any issues or mistakes to administrator
+Reporting any issues or mistakes to teacher/headmaster/administrator
 =======================================
 
 personal_subject:
@@ -181,13 +182,11 @@ personal_grade:
 V - READ		reference_link(APPATCH/backend/index.php/class_register_api/user/personal_grade/read_grade)				method(GET)
 V - READ SINGLE		reference_link(APPATCH/backend/index.php/class_register_api/user/personal_grade/read_single_grade)			method(GET)
 personal_absence:
-V - READ		reference_link(APPATCH/backend/index.php/class_register_api/user/personal_absence/read_grade)				method(GET)
-V - READ SINGLE		reference_link(APPATCH/backend/index.php/class_register_api/user/personal_absence/read_single_grade)			method(GET)
+V - READ		reference_link(APPATCH/backend/index.php/class_register_api/user/personal_absence/read_absence)				method(GET)
+V - READ SINGLE		reference_link(APPATCH/backend/index.php/class_register_api/user/personal_absence/read_single_absence)			method(GET)
 personal_note:
-V - READ		reference_link(APPATCH/backend/index.php/class_register_api/user/personal_note/read_grade)				method(GET)
-V - READ SINGLE		reference_link(APPATCH/backend/index.php/class_register_api/user/personal_note/read_single_grade)			method(GET)
-
-
+V - READ		reference_link(APPATCH/backend/index.php/class_register_api/user/personal_note/read_note)				method(GET)
+V - READ SINGLE		reference_link(APPATCH/backend/index.php/class_register_api/user/personal_note/read_single_note)			method(GET)
 
 =======================================
 Login endpoints

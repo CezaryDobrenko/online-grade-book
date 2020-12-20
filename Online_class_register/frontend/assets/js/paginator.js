@@ -44,6 +44,8 @@
  *
  * }
  */
+ var qwargs = 0;
+ 
 function paginator(config) {
     // throw errors if insufficient parameters were given
     if (typeof config != "object")
@@ -63,7 +65,7 @@ function paginator(config) {
         config.box = document.createElement("div");
     }
     box = config.box;
-
+	
     // get/make function for getting table's rows
     if (typeof config.get_rows != "function") {
         config.get_rows = function () {
@@ -284,6 +286,9 @@ function paginator(config) {
     if (typeof config.tail_call == "function") {
         config.tail_call(config);
     }
-
+	if(qwargs == 0){
+		box.style.display = "none";
+		qwargs++;
+	}
     return box;
 }

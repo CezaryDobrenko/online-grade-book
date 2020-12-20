@@ -16,8 +16,9 @@ class manage_parent_model extends CI_Model{
     }
 
     public function get_all_parents(){
-        $this->db->select("*");
-        $this->db->from("tbl_parents");
+        $this->db->select("a.parent_id, a.parent_email, a.parent_password, a.parent_is_active, b.student_email");
+        $this->db->from("tbl_parents as a");
+		$this->db->join('tbl_students as b', 'parent_student_id = student_id', 'left');
         $query = $this->db->get();
         return $query->result();
     }

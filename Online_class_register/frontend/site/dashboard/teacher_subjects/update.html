@@ -1,0 +1,148 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Online Register</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="/front/assets/css/main.css" />
+		<script src="/front/assets/js/accessPermission/class.accessPermision.js"></script>
+		<script src="/front/assets/js/accessPermission/accessPermisionAdministrator.js"></script>
+		<script src="/front/assets/js/crudDefault/class.crudDefault.js"></script>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+
+							<!-- Header -->
+								<header id="header">
+									<a href="index.html" class="logo"><strong>Online register</strong> perfect solutions for you.</a>
+									<ul class="icons">
+										<li><a href="http://www.facebook.com/" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+										<li><a href="http://www.snapchat.com/" class="icon brands fa-snapchat-ghost"><span class="label">Snapchat</span></a></li>
+										<li><a href="http://www.instagram.com/" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+									</ul>
+								</header>
+							
+							<!-- Content -->
+
+								<section>
+									<div class="row">
+										<div class="col-4 col-12-medium"></div>
+										<div class="col-4 col-12-medium">
+											<header class="major"><h3>Create subject:</h3></header>
+											
+												<!-- Form -->
+													<form method="post" action="">
+														<div class="row gtr-uniform">
+															<div class="col-12">
+																<input type="hidden" name="subject_has_teacher_id" id="subject_has_teacher_id" value=""/>
+															</div>
+															<div class="col-12">
+																<label for="subject_has_teacher_teacher_id">Choose teacher:</label>
+																<select name="subject_has_teacher_teacher_id" id="subject_has_teacher_teacher_id"></select>
+															</div>
+															<div class="col-12">
+																<label for="subject_has_teacher_subject_id">Choose subject:</label>
+																<select name="subject_has_teacher_subject_id" id="subject_has_teacher_subject_id"></select>
+															</div>
+															<!-- Break -->
+															<div class="col-12">
+																<ul class="actions fit">
+																	<li><a href="#" class="button primary fit" onclick="initialize()">Update</a></li>
+																	<li><a href="#" class="button primary fit" onclick="redirect()">Back</a></li>
+																</ul>
+															</div>
+														</div>
+													</form>
+											
+										</div>
+										<div class="col-4 col-12-medium"></div>
+									</div>
+								</section>
+
+						</div>
+					</div>
+
+				<!-- Sidebar -->
+					<div id="sidebar">
+						<div class="inner">
+
+							<!-- Logo -->
+								<section id="logo" class="alt">
+									<span class="image fit"><img src="/front/images/logo/logo.png" alt=""></span>
+								</section>
+							
+							<!-- Login -->
+								<section id="login" class="alt">
+									<ul class="actions fit">
+										<li><a href="/front/site/login/userlogin.html" class="button primary fit">Sign In as user</a></li>
+									</ul>
+									<ul class="actions fit">
+										<li><a href="/front/site/login/teacherlogin.html" class="button primary fit">Sign In as teacher</a></li>
+									</ul>
+								</section>
+
+							<!-- Menu -->
+								
+								<nav id="menu">
+									<header class="major">
+										<h2>Site menu</h2>
+									</header>
+									<ul>
+										<li><a href="/front/index.html">Homepage</a></li>
+										<li><a href="/front/site/guest/about.html">About us</a></li>
+										<li><a href="/front/site/guest/contact.html">Contact</a></li>
+									</ul>
+								</nav>
+
+							<!-- Section -->
+								<section>
+									<header class="major">
+										<h2>Basic information</h2>
+									</header>
+									<p>We are reliable partner with good infrastructure and experienced team. If you are searching for best solution, we are the answer!</p>
+									<ul class="contact">
+										<li class="icon solid fa-envelope"><a href="#">info@register.edu.pl</a></li>
+										<li class="icon solid fa-phone">+48 600135742</li>
+										<li class="icon solid fa-home">Mrągowo 11-700</li>
+									</ul>
+								</section>
+
+							<!-- Footer -->
+								<footer id="footer">
+									<p class="copyright">&copy; Pracownia dyplomowa.<br>Cezary Dobreńko 2020.</p>
+								</footer>
+
+						</div>
+					</div>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="/front/assets/js/jquery.min.js"></script>
+			<script src="/front/assets/js/browser.min.js"></script>
+			<script src="/front/assets/js/breakpoints.min.js"></script>
+			<script src="/front/assets/js/util.js"></script>
+			<script src="/front/assets/js/main.js"></script>
+			<script src="/front/assets/js/sweetalert.min.js"></script>
+			<script src="/front/assets/js/customMenu/class.customMenu.js"></script>
+			<script src="/front/assets/js/customMenu/customMenu.js"></script>
+			<script src="/front/assets/js/customField/read.js"></script>
+			<script src="/front/assets/js/crudDefault/update.js"></script>
+			<script>
+				//CUSTOM VARIABLES
+				const path = "http://127.0.0.1/dashboard/backend/index.php/class_register_api/admin/manage_teacher_subject/update_teacher_subject"
+				let Spath = "http://127.0.0.1/dashboard/backend/index.php/class_register_api/admin/manage_teacher_subject/read_single_teacher_subject"
+				addDataToField("http://127.0.0.1/dashboard/backend/index.php/class_register_api/admin/manage_subject/read_subject", "subject_id",["subject_name"],"subject_has_teacher_subject_id", true)
+				addDataToField("http://127.0.0.1/dashboard/backend/index.php/class_register_api/admin/manage_teacher/read_teacher", "teacher_id",["teacher_name", "teacher_surname","teacher_email"],"subject_has_teacher_teacher_id", true)
+				returnPath = "/front/site/dashboard/teacher_subjects/read.html"
+				var error = "";
+				//END CUSTOM VARIABLES
+			</script>
+	</body>
+</html>

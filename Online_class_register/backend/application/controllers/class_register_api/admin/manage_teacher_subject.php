@@ -36,7 +36,7 @@ class manage_teacher_subject extends REST_Controller{
                             );
                             if(manage_teacher_subject::validateInput($teacher_subject_data)){
                                 if($this->manage_teacher_subject_model->create_teacher_subject($teacher_subject_data)){
-                                    $this->response(array("message" => "Teacher subject relation has been created", "status" => "0"), parent::HTTP_OK);
+                                    $this->response(array("message" => "Teacher subject relation has been created", "status" => "1"), parent::HTTP_OK);
                                 } else {
                                     $this->response(array("message" => "Failed to create teacher subject relation", "status" => "0"), parent::HTTP_INTERNAL_SERVER_ERROR);
                                 }
@@ -91,6 +91,7 @@ class manage_teacher_subject extends REST_Controller{
         }
     }
 
+
     //Update teacher_subject
     public function update_teacher_subject_put(){
 
@@ -102,19 +103,24 @@ class manage_teacher_subject extends REST_Controller{
             if($vfc){  
                 if(!empty($this->manage_teacher_subject_model->is_teacher_exists($data->subject_has_teacher_teacher_id))){
                    if(!empty($this->manage_teacher_subject_model->is_subject_exists($data->subject_has_teacher_subject_id))){
-                        $teacher_subject_data = array(
-                            "subject_has_teacher_teacher_id" => $data->subject_has_teacher_teacher_id,
-                            "subject_has_teacher_subject_id" => $data->subject_has_teacher_subject_id
-                        );
-                        if(manage_teacher_subject::validateInput($teacher_subject_data)){
-                            if($this->manage_teacher_subject_model->update_teacher_subject($data->subject_has_teacher_id, $teacher_subject_data)){
-                                $this->response(array("message" => "Teacher subject relation has been updated", "status" => "1"), parent::HTTP_OK);
-                            } else {
-                                $this->response(array("message" => "Failed to update teacher subject relation", "status" => "0"), parent::HTTP_INTERNAL_SERVER_ERROR);
-                            }
-                        } else {
-                            $this->response(array("message" => "Thread detected, terminate request", "status" => "0"), parent::HTTP_BAD_REQUEST);
-                        }
+						if(empty($this->manage_teacher_subject_model->is_teacher_subject_relation_exists($data->subject_has_teacher_subject_id,$data->subject_has_teacher_teacher_id))){
+							$teacher_subject_data = array(
+								"subject_has_teacher_teacher_id" => $data->subject_has_teacher_teacher_id,
+								"subject_has_teacher_subject_id" => $data->subject_has_teacher_subject_id
+							);
+							if(manage_teacher_subject::validateInput($teacher_subject_data)){
+								if($this->manage_teacher_subject_model->update_teacher_subject($data->subject_has_teacher_id, $teacher_subject_data)){
+									$this->response(array("message" => "Teacher subject relation has been updated", "status" => "1"), parent::HTTP_OK);
+								} else {
+									$this->response(array("message" => "Failed to update teacher subject relation", "status" => "0"), parent::HTTP_INTERNAL_SERVER_ERROR);
+								}
+							} else {
+								$this->response(array("message" => "Thread detected, terminate request", "status" => "0"), parent::HTTP_BAD_REQUEST);
+							}
+						}
+						else {
+							$this->response(array("message" => "Teacher already has that subject", "status" => "0"), parent::HTTP_CONFLICT);
+						}
                    } else {
                         $this->response(array("message" => "Subject does not exist", "status" => "0"), parent::HTTP_CONFLICT);
                    }

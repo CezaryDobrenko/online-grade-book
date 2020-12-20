@@ -16,8 +16,10 @@ class manage_teacher_subject_model extends CI_Model{
     }
 
     public function get_all_teacher_subject(){
-        $this->db->select("*");
-        $this->db->from("tbl_subject_has_teacher");
+        $this->db->select("a.subject_has_teacher_id, b.teacher_email, c.subject_name");
+        $this->db->from("tbl_subject_has_teacher as a");
+		$this->db->join('tbl_teachers as b', 'subject_has_teacher_teacher_id = teacher_id', 'left');
+		$this->db->join('tbl_subjects as c', 'subject_has_teacher_subject_id = subject_id', 'left');
         $query = $this->db->get();
         return $query->result();
     }
