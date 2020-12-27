@@ -21,6 +21,7 @@ async function readFromDatabase(){
 function FilterTableRow(interstingWord) {
 	var input, filter, table, tr, td, i, txtValue;
 	var words = interstingWord.value.split(/(\s+)/).filter( e => e.length > 1);
+	console.log(words);
 	words = words.map(val => val.toUpperCase());
 	table = document.getElementById("table_content");
 	tr = table.getElementsByTagName("tr");
@@ -31,6 +32,7 @@ function FilterTableRow(interstingWord) {
 			td = tr[i].getElementsByTagName("td")[j];
 			txtValue = td.textContent || td.innerText;
 			for(k = 0; k < words.length; k++){
+				console.log(txtValue.toUpperCase().indexOf(words[k]) > -1);
 				if(txtValue.toUpperCase().indexOf(words[k]) > -1){
 					counter++;
 				}
@@ -83,24 +85,12 @@ function generateTableBody(output,ignoreField){
 						counterC++;
 					}
 				}
-				counterz = 0;
 				if(counterC == ignoreField.length){
-					table += '<td>';
+					table += '<td class="responsivetd">';
 					if(output.data[i][e] != null){
+						counterz = 0;
 						for(k = 0; k < output.data[i][e].length; k++){
-							counterz++;
-							if(counterz > 15){
-								if(output.data[i][e][k] != ' ' && (counterz < 20 || output.data[i][e].length - counterz < 4)){
-									table += output.data[i][e][k]
-								}
-								else {
-									table += output.data[i][e][k] +"<br>";
-									counterz = 0;
-								}
-							}
-							else{
-								table += output.data[i][e][k]
-							}
+							table += output.data[i][e][k]
 						}
 					} else {
 						table += "None";

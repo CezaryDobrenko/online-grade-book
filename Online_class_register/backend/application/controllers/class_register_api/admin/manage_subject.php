@@ -95,10 +95,14 @@ class manage_subject extends REST_Controller{
                     $subject_data = array(
                         "subject_name" => $data->subject_name,
                     );
-                    if($this->manage_subject_model->update_subject($data->subject_id, $subject_data)){
-                        $this->response(array("message" => "Teacher has been updated", "status" => "1"), parent::HTTP_OK);
+                    if(manage_subject::validateInput($subject_data)){
+						if($this->manage_subject_model->update_subject($data->subject_id, $subject_data)){
+							$this->response(array("message" => "Teacher has been updated", "status" => "1"), parent::HTTP_OK);
+						} else {
+							$this->response(array("message" => "Failed to update teacher", "status" => "0"), parent::HTTP_INTERNAL_SERVER_ERROR);
+						}
                     } else {
-                        $this->response(array("message" => "Failed to update teacher", "status" => "0"), parent::HTTP_INTERNAL_SERVER_ERROR);
+                        $this->response(array("message" => "Thread detected, terminate request", "status" => "0"), parent::HTTP_BAD_REQUEST);
                     }
                 } else {
                     $this->response(array("message" => "Subject already exists", "status" => "0"), parent::HTTP_CONFLICT);

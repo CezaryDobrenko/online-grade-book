@@ -37,7 +37,7 @@ class personal_grade extends REST_Controller{
             foreach ($grades_data as &$grade) {
                 array_push($final_data[$grade->grade_subject_name], (array)$grade); 
             }
-
+			
             if(count($final_data) > 0){
                 $this->response(array("message" => "Grade list", "data" => $final_data), parent::HTTP_OK);
             } 
@@ -52,10 +52,9 @@ class personal_grade extends REST_Controller{
     //Read single grade
     public function read_single_grade_get(){
         if(personal_grade::tokenAccessValidation("Student","Parent")){
-            $data = json_decode(file_get_contents("php://input"));
 
-            if(isset($data->grade_id)){
-                $grade_data = $this->personal_grade_model->get_grade($data->grade_id);
+            if(isset($_GET['id'])){
+                $grade_data = $this->personal_grade_model->get_grade($_GET['id']);
     
                 if(count((array)$grade_data) > 0){
                     $this->response(array("message" => "Grade data", "data" => $grade_data), parent::HTTP_OK);

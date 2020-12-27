@@ -1,10 +1,5 @@
 @import url(fontawesome-all.min.css);
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,600,400italic,600italic|Roboto+Slab:400,700");
-/*
-	Editorial by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
-*/
 html, body, div, span, applet, object,
 iframe, h1, h2, h3, h4, h5, h6, p, blockquote,
 pre, a, abbr, acronym, address, big, cite,
@@ -2271,3 +2266,18 @@ button,
     border-top: 0;
     margin-top: 0;
     padding-top: 0; }
+
+.responsivetd{
+	word-wrap: break-word;
+	max-width: 120px;
+}
+
+.grade_block{
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+	color:white;
+	float:left; 
+	width: 20px; 
+	border: solid 1px black; 
+	margin-right: 5px; 
+	margin-top:5px;
+}

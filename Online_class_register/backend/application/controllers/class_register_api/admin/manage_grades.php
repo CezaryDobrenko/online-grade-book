@@ -24,7 +24,7 @@ class manage_grades extends REST_Controller{
         if(manage_grades::tokenAccessValidation("Administrator")){
 
             $data = json_decode(file_get_contents("php://input"));
-            $vfc = isset($data->grade_value) && isset($data->grade_comment) && isset($data->grade_semester)  && isset($data->grade_category_id)  && isset($data->grade_student_id)  && isset($data->grade_teacher_id) && isset($data->grade_subject_id);
+            $vfc = isset($data->grade_value) && isset($data->grade_comment) && isset($data->grade_semester) && isset($data->grade_kind) && isset($data->grade_category_id)  && isset($data->grade_student_id)  && isset($data->grade_teacher_id) && isset($data->grade_subject_id);
             
             if($vfc){  
                 if(!empty($this->manage_grade_model->is_teacher_exists($data->grade_teacher_id))){
@@ -33,24 +33,29 @@ class manage_grades extends REST_Controller{
                             if(!empty($this->manage_grade_model->is_subject_exists($data->grade_subject_id))){
                                 $student_group_id = $this->manage_grade_model->is_student_exists($data->grade_student_id)->student_group_id;
                                 if(!empty($this->manage_grade_model->check_if_student_group_has_that_lesson($student_group_id, $data->grade_subject_id))){
-                                    $grade_data = array(
-                                        "grade_value" => $data->grade_value,
-                                        "grade_comment" => $data->grade_comment,
-                                        "grade_category_id" => $data->grade_category_id,
-                                        "grade_student_id" => $data->grade_student_id,
-                                        "grade_teacher_id" => $data->grade_teacher_id,
-                                        "grade_subject_id" => $data->grade_subject_id,
-                                        "grade_semester" => $data->grade_semester
-                                    );
-                                    if(manage_grades::validateInput($grade_data)){
-                                        if($this->manage_grade_model->create_grade($grade_data)){
-                                            $this->response(array("message" => "Grade has been created", "status" => "1"), parent::HTTP_OK);
-                                        } else {
-                                            $this->response(array("message" => "Failed to create grade", "status" => "0"), parent::HTTP_INTERNAL_SERVER_ERROR);
-                                        }
-                                    } else {
-                                        $this->response(array("message" => "Thread detected, terminate request", "status" => "0"), parent::HTTP_BAD_REQUEST);
-                                    }
+									if(empty($this->manage_grade_model->is_final_or_middle_unique_c($data->grade_student_id, $data->grade_kind, $data->grade_subject_id, $data->grade_semester)) || $data->grade_kind == "S"){
+										$grade_data = array(
+											"grade_value" => $data->grade_value,
+											"grade_comment" => $data->grade_comment,
+											"grade_category_id" => $data->grade_category_id,
+											"grade_student_id" => $data->grade_student_id,
+											"grade_teacher_id" => $data->grade_teacher_id,
+											"grade_subject_id" => $data->grade_subject_id,
+											"grade_semester" => $data->grade_semester,
+											"grade_kind" => $data->grade_kind
+										);
+										if(manage_grades::validateInput($grade_data)){
+											if($this->manage_grade_model->create_grade($grade_data)){
+												$this->response(array("message" => "Grade has been created", "status" => "1"), parent::HTTP_OK);
+											} else {
+												$this->response(array("message" => "Failed to create grade", "status" => "0"), parent::HTTP_INTERNAL_SERVER_ERROR);
+											}
+										} else {
+											$this->response(array("message" => "Thread detected, terminate request", "status" => "0"), parent::HTTP_BAD_REQUEST);
+										}
+									} else {
+										$this->response(array("message" => "This student has defined middle/final kind of grade", "status" => "0"), parent::HTTP_CONFLICT);
+									}
                                 } else {
                                     $this->response(array("message" => "Student group does not have that subject", "status" => "0"), parent::HTTP_NOT_FOUND);
                                 }
@@ -111,7 +116,7 @@ class manage_grades extends REST_Controller{
         if(manage_grades::tokenAccessValidation("Administrator")){
 
             $data = json_decode(file_get_contents("php://input"));
-            $vfc = isset($data->grade_id) && isset($data->grade_value) && isset($data->grade_comment) && isset($data->grade_semester)  && isset($data->grade_category_id)  && isset($data->grade_student_id)  && isset($data->grade_teacher_id) && isset($data->grade_subject_id);
+            $vfc = isset($data->grade_id) && isset($data->grade_value) && isset($data->grade_comment) && isset($data->grade_semester) && isset($data->grade_kind) && isset($data->grade_category_id)  && isset($data->grade_student_id)  && isset($data->grade_teacher_id) && isset($data->grade_subject_id);
             
             if($vfc){  
                 if(!empty($this->manage_grade_model->is_teacher_exists($data->grade_teacher_id))){
@@ -120,24 +125,29 @@ class manage_grades extends REST_Controller{
                             if(!empty($this->manage_grade_model->is_subject_exists($data->grade_subject_id))){
                                 $student_group_id = $this->manage_grade_model->is_student_exists($data->grade_student_id)->student_group_id;
                                 if(!empty($this->manage_grade_model->check_if_student_group_has_that_lesson($student_group_id, $data->grade_subject_id))){
-                                    $grade_data = array(
-                                        "grade_value" => $data->grade_value,
-                                        "grade_comment" => $data->grade_comment,
-                                        "grade_category_id" => $data->grade_category_id,
-                                        "grade_student_id" => $data->grade_student_id,
-                                        "grade_teacher_id" => $data->grade_teacher_id,
-                                        "grade_subject_id" => $data->grade_subject_id,
-                                        "grade_semester" => $data->grade_semester
-                                    );
-                                    if(manage_grades::validateInput($grade_data)){
-                                        if($this->manage_grade_model->update_grade($data->grade_id, $grade_data)){
-                                            $this->response(array("message" => "Grade has been updated", "status" => "1"), parent::HTTP_OK);
-                                        } else {
-                                            $this->response(array("message" => "Failed to update grade", "status" => "0"), parent::HTTP_INTERNAL_SERVER_ERROR);
-                                        }
-                                    } else {
-                                        $this->response(array("message" => "Thread detected, terminate request", "status" => "0"), parent::HTTP_BAD_REQUEST);
-                                    }
+									if(empty($this->manage_grade_model->is_final_or_middle_unique_u($data->grade_student_id, $data->grade_kind, $data->grade_subject_id, $data->grade_id, $data->grade_semester)) || $data->grade_kind == "S"){
+										$grade_data = array(
+											"grade_value" => $data->grade_value,
+											"grade_comment" => $data->grade_comment,
+											"grade_category_id" => $data->grade_category_id,
+											"grade_student_id" => $data->grade_student_id,
+											"grade_teacher_id" => $data->grade_teacher_id,
+											"grade_subject_id" => $data->grade_subject_id,
+											"grade_semester" => $data->grade_semester,
+											"grade_kind" => $data->grade_kind
+										);
+										if(manage_grades::validateInput($grade_data)){
+											if($this->manage_grade_model->update_grade($data->grade_id, $grade_data)){
+												$this->response(array("message" => "Grade has been updated", "status" => "1"), parent::HTTP_OK);
+											} else {
+												$this->response(array("message" => "Failed to update grade", "status" => "0"), parent::HTTP_INTERNAL_SERVER_ERROR);
+											}
+										} else {
+											$this->response(array("message" => "Thread detected, terminate request", "status" => "0"), parent::HTTP_BAD_REQUEST);
+										}
+									} else {
+										$this->response(array("message" => "This student has defined middle/final kind of grade", "status" => "0"), parent::HTTP_CONFLICT);
+									}
                                 } else {
                                     $this->response(array("message" => "Student group does not have that subject", "status" => "0"), parent::HTTP_NOT_FOUND);
                                 }

@@ -25,7 +25,7 @@ class staf_note_model extends CI_Model{
     }
 
     public function get_note($note_id){
-        $this->db->select("note_id, note_comment, note_student_id");
+        $this->db->select("*");
         $this->db->from("tbl_notes");
         $this->db->where("note_id",$note_id);
         $query = $this->db->get();

@@ -20,7 +20,7 @@ class personal_subject_model extends CI_Model{
     public function get_all_subject($group_id){
         $this->db->select("ts.subject_name");
         $this->db->from("tbl_groups_subjects AS tgs");
-        $this->db->join('tbl_subjects AS ts','ts.subject_id = tgs.group_subject_subject_id');
+        $this->db->join('tbl_subjects AS ts','ts.subject_id = tgs.group_subject_subject_id', "left");
         $this->db->where("group_subject_group_id",$group_id);
         $query = $this->db->get();
         return $query->result();

@@ -31,7 +31,8 @@ class Auth {
 				}))
 				this.go_back();
 			  } else {
-				console.log(result["message"])
+				swal({title: "Error!", text: "Wrong credentials", icon: "error"});
+				this.swalCorrection();
 			  }
 			})
 		  }).catch(function(error) {
@@ -56,7 +57,8 @@ class Auth {
 				}))
 				this.go_back();
 			  } else {
-				console.log(result["message"])
+				swal({title: "Error!", text: "Wrong credentials", icon: "error"});
+				this.swalCorrection();
 			  }
 			})
 		  }).catch(function(error) {
@@ -81,7 +83,8 @@ class Auth {
 				}))
 				this.go_back();
 			  } else {
-				console.log(result["message"])
+				swal({title: "Error!", text: "Wrong credentials", icon: "error"});
+				this.swalCorrection();
 			  }
 			})
 		  }).catch(function(error) {
@@ -99,6 +102,10 @@ class Auth {
 	
 	go_back(){
 		location.replace("/front/index.html");
+	}
+	
+	swalCorrection(){
+		document.getElementsByClassName("swal-button swal-button--confirm")[0].style.backgroundColor = "white";
 	}
 	
 }

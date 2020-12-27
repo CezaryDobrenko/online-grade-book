@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 20 Gru 2020, 01:47
+-- Czas generowania: 27 Gru 2020, 22:54
 -- Wersja serwera: 10.4.11-MariaDB
 -- Wersja PHP: 7.4.3
 
@@ -32,6 +32,7 @@ CREATE TABLE `tbl_absence` (
   `absence_id` int(11) NOT NULL,
   `absence_lesson_number` enum('1','2','3','4','5','6','7','8','9','10') COLLATE utf8_polish_ci NOT NULL,
   `absence_date` date NOT NULL,
+  `absence_is_justified` enum('Yes','No') COLLATE utf8_polish_ci NOT NULL,
   `absence_created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `absence_teacher_id` int(11) DEFAULT NULL,
   `absence_student_id` int(11) NOT NULL
@@ -41,16 +42,40 @@ CREATE TABLE `tbl_absence` (
 -- Zrzut danych tabeli `tbl_absence`
 --
 
-INSERT INTO `tbl_absence` (`absence_id`, `absence_lesson_number`, `absence_date`, `absence_created_at`, `absence_teacher_id`, `absence_student_id`) VALUES
-(6, '5', '2020-08-18', '2020-08-26 23:08:45', 38, 5),
-(7, '5', '2020-08-18', '2020-08-26 22:54:23', 38, 7),
-(8, '4', '2020-08-18', '2020-08-26 23:16:41', 33, 19),
-(10, '6', '2020-12-15', '2020-12-11 23:41:35', 33, 2),
-(13, '1', '2020-12-11', '2020-12-13 23:32:13', 32, 2),
-(14, '1', '2020-12-19', '2020-12-19 18:09:58', 37, 12),
-(16, '1', '2020-12-11', '2020-12-19 18:27:37', 37, 2),
-(17, '7', '2020-12-19', '2020-12-19 19:18:50', 37, 15),
-(18, '2', '2020-12-19', '2020-12-19 19:18:59', 37, 18);
+INSERT INTO `tbl_absence` (`absence_id`, `absence_lesson_number`, `absence_date`, `absence_is_justified`, `absence_created_at`, `absence_teacher_id`, `absence_student_id`) VALUES
+(7, '5', '2020-08-18', 'Yes', '2020-08-26 22:54:23', 38, 7),
+(8, '4', '2020-08-18', 'Yes', '2020-08-26 23:16:41', 33, 19),
+(10, '6', '2020-12-15', 'Yes', '2020-12-11 23:41:35', 33, 2),
+(13, '1', '2020-12-11', 'Yes', '2020-12-13 23:32:13', 32, 2),
+(14, '1', '2020-12-19', 'Yes', '2020-12-27 14:36:16', 37, 12),
+(16, '1', '2020-12-11', 'Yes', '2020-12-19 18:27:37', 37, 2),
+(17, '7', '2020-12-19', 'Yes', '2020-12-19 19:18:50', 37, 15),
+(18, '2', '2020-12-19', 'Yes', '2020-12-19 19:18:59', 37, 18),
+(19, '1', '2020-12-27', 'No', '2020-12-27 14:36:51', 37, 17),
+(20, '1', '2020-12-27', 'Yes', '2020-12-27 14:47:01', 34, 18),
+(21, '4', '2020-12-15', 'No', '2020-12-27 15:38:58', 38, 5),
+(22, '4', '2020-12-17', 'No', '2020-12-27 15:38:58', 33, 5),
+(23, '2', '2020-12-15', 'No', '2020-12-27 16:16:41', 37, 10);
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `tbl_announcements`
+--
+
+CREATE TABLE `tbl_announcements` (
+  `announcement_id` int(11) NOT NULL,
+  `announcement_message` varchar(255) COLLATE utf8_polish_ci NOT NULL,
+  `announcement_date` date NOT NULL,
+  `announcement_creator_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
+
+--
+-- Zrzut danych tabeli `tbl_announcements`
+--
+
+INSERT INTO `tbl_announcements` (`announcement_id`, `announcement_message`, `announcement_date`, `announcement_creator_id`) VALUES
+(7, 'sdadsa3', '2020-12-22', 32);
 
 -- --------------------------------------------------------
 
@@ -64,6 +89,7 @@ CREATE TABLE `tbl_grades` (
   `grade_comment` varchar(100) COLLATE utf8_polish_ci NOT NULL,
   `grade_created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `grade_semester` enum('Semester 1','Semester 2') COLLATE utf8_polish_ci NOT NULL DEFAULT 'Semester 1',
+  `grade_kind` enum('S','M','F') COLLATE utf8_polish_ci NOT NULL DEFAULT 'S',
   `grade_category_id` int(11) DEFAULT NULL,
   `grade_student_id` int(11) NOT NULL,
   `grade_teacher_id` int(11) DEFAULT NULL,
@@ -74,24 +100,28 @@ CREATE TABLE `tbl_grades` (
 -- Zrzut danych tabeli `tbl_grades`
 --
 
-INSERT INTO `tbl_grades` (`grade_id`, `grade_value`, `grade_comment`, `grade_created_at`, `grade_semester`, `grade_category_id`, `grade_student_id`, `grade_teacher_id`, `grade_subject_id`) VALUES
-(8, '3', 'dsad', '2020-08-22 09:43:54', 'Semester 1', 6, 2, 32, 2),
-(9, '5', 'asdsadasdasd55', '2020-08-22 23:02:57', 'Semester 2', 5, 6, 33, 11),
-(10, '3', 'asdsadasdasd', '2020-08-23 12:59:16', 'Semester 1', 6, 19, 32, 11),
-(11, '3', 'asdsadasdasd', '2020-08-24 14:12:36', 'Semester 1', 6, 19, 38, 11),
-(12, '3', 'asdsadasdasd', '2020-08-24 14:12:52', 'Semester 1', 6, 19, 32, 11),
-(13, '3', 'asdsadasdasd', '2020-08-24 14:26:42', 'Semester 2', 6, 2, 38, 11),
-(14, '3', 'asdsadasdasd', '2020-08-24 14:27:32', 'Semester 2', 6, 2, 32, 11),
-(15, '3', 'dsadsadasdasd', '2020-08-24 15:21:45', 'Semester 2', 6, 2, 32, 11),
-(16, '6', 'Całki', '2020-08-25 16:36:07', 'Semester 1', 6, 19, 38, 2),
-(17, '3', 'dsad', '2020-08-26 22:42:18', 'Semester 2', 6, 2, 32, 11),
-(18, '3', 'dsad', '2020-08-26 22:42:37', 'Semester 1', 6, 2, 32, 11),
-(19, '3', 'asdsadasdasdasdsadasdasdasdsadasdasdasdsadasdasdasdsadasdasdasdsadasdasdasdsadasdas', '2020-08-28 11:18:43', 'Semester 2', 3, 6, 38, 2),
-(21, '1', '3', '2020-08-28 11:27:47', 'Semester 1', 3, 2, 37, 5),
-(24, '2', 'sadadsadads', '2020-12-13 21:16:11', 'Semester 2', NULL, 4, 37, 5),
-(25, '6', 'change', '2020-12-13 21:31:03', 'Semester 2', 6, 19, 37, 3),
-(26, '3', 'sadsada', '2020-12-19 19:30:24', 'Semester 1', 15, 9, 37, 7),
-(27, '1', 'asdsad', '2020-12-19 19:30:40', 'Semester 2', 3, 2, 37, 5);
+INSERT INTO `tbl_grades` (`grade_id`, `grade_value`, `grade_comment`, `grade_created_at`, `grade_semester`, `grade_kind`, `grade_category_id`, `grade_student_id`, `grade_teacher_id`, `grade_subject_id`) VALUES
+(8, '1', 'dsad', '2020-08-22 09:43:54', 'Semester 1', 'F', 17, 2, 32, 5),
+(9, '5', 'asdsadasdasd55', '2020-08-22 23:02:57', 'Semester 2', 'S', 5, 6, 33, 11),
+(13, '3', 'asdsadasdasd', '2020-08-24 14:26:42', 'Semester 2', 'S', 6, 2, 38, 11),
+(14, '3', 'asdsadasdasd', '2020-08-24 14:27:32', 'Semester 2', 'S', 6, 2, 32, 11),
+(15, '3', 'dsadsadasdasd', '2020-08-24 15:21:45', 'Semester 2', 'S', 6, 2, 32, 11),
+(16, '6', 'Całki', '2020-08-25 16:36:07', 'Semester 1', 'S', 6, 19, 38, 2),
+(17, '3', 'dsad', '2020-08-26 22:42:18', 'Semester 2', 'S', 6, 2, 32, 11),
+(18, '3', 'dsad', '2020-08-26 22:42:37', 'Semester 1', 'S', 6, 2, 32, 11),
+(19, '3', 'asdsadasdasdasdsadasdasdasdsadasdasdasdsadasdasdasdsadasdasdasdsadasdasdasdsadasdas', '2020-08-28 11:18:43', 'Semester 2', 'S', 3, 6, 38, 2),
+(21, '1', 'asdsadasdasdasdsa', '2020-08-28 11:27:47', 'Semester 1', 'S', 3, 2, 32, 2),
+(24, '2', 'sadadsadads', '2020-12-13 21:16:11', 'Semester 2', 'M', 3, 3, 37, 5),
+(25, '6', 'change', '2020-12-13 21:31:03', 'Semester 2', 'S', 6, 19, 37, 5),
+(26, '3', 'sadsada', '2020-12-19 19:30:24', 'Semester 1', 'S', 15, 9, 37, 7),
+(27, '1', 'asdsad', '2020-12-19 19:30:40', 'Semester 2', 'S', 3, 2, 37, 5),
+(29, '6', 'sadasdasd', '2020-12-23 12:51:10', 'Semester 1', 'S', 6, 2, 33, 5),
+(31, '3', 'sadasdasd', '2020-12-25 15:05:15', 'Semester 1', 'M', 4, 19, 37, 5),
+(32, '6', 'Całki', '2020-12-25 15:07:44', 'Semester 2', 'F', 5, 19, 37, 5),
+(33, '4', 'sadadasd', '2020-12-25 15:35:56', 'Semester 2', 'S', 6, 19, 37, 5),
+(34, '5', 'sadsad', '2020-12-25 15:39:53', 'Semester 1', 'S', 4, 19, 37, 5),
+(35, '5', 'asdsad', '2020-12-25 15:40:27', 'Semester 2', 'M', 10, 19, 37, 5),
+(36, '5', 'changed', '2020-12-25 15:53:43', 'Semester 1', 'S', NULL, 19, NULL, 5);
 
 -- --------------------------------------------------------
 
@@ -243,7 +273,7 @@ INSERT INTO `tbl_parents` (`parent_id`, `parent_email`, `parent_password`, `pare
 (4, 'rodzic2', '$2y$10$T8Ad13F1srIAx8eqRbLFTOzu7rTcnfGIwR3IsEBDAucY6N0XnmQDq', '1', 3),
 (5, 'rodzic23', '$2y$10$sXSEkumOq4anWR60BgPw.u/YsG3miAgliZf31AgAcjqKN4MqMi0Va', '0', 12),
 (6, 'rodzic@gmail.com', '$2y$10$saLAcduAj5bjQDOkI2wARur3FeengAhOV0r7E1v0sA4ckkb9CyFHi', '1', 19),
-(8, 'sadasd', '$2y$10$nkIUGlKj1q.uGkf4sZMKj.BvgKf2T1IgW6Y/6vmtyBmztVNdZUgNG', '0', 6);
+(8, 'sadasdaaaaaaaaaaaaaaaaaaaaaaaaaa', '$2y$10$S9FTAQXjSrK2rHPWhF7v5.zMQuXHKYwDdXf1GihuuQPAPacyRH5Am', '1', 2);
 
 -- --------------------------------------------------------
 
@@ -311,7 +341,7 @@ INSERT INTO `tbl_subjects` (`subject_id`, `subject_name`) VALUES
 (9, 'Biologia'),
 (10, 'Fizyka'),
 (11, 'Chemia'),
-(55, 'wwdz');
+(55, 'wwdz2');
 
 -- --------------------------------------------------------
 
@@ -371,10 +401,10 @@ CREATE TABLE `tbl_teachers` (
 INSERT INTO `tbl_teachers` (`teacher_id`, `teacher_email`, `teacher_password`, `teacher_name`, `teacher_surname`, `teacher_is_active`, `teacher_role`, `teacher_group`) VALUES
 (32, 'hakerbonzo3@op.pl', '$2y$10$y1.IBino.iCV6H42F6C3VObgLBi7HR9G28RB7L/Shh9gjBE46fED6', 'sdadasd', 'asdasdasd', '1', 'Administrator', 4),
 (33, 'hax1234213@wp.pl', '$2y$10$cPXeDqAFjIr08E/uHw486OMHxPzqULzAWhvQME3px3lIg2vWOupgu', 'hax2', 'or2', '0', 'Administrator', 1),
-(34, 'hax1234@wp.pl', '$2y$10$hdQcVcIbZFjHbCu0Mt6uxu3i437CgYGzsYSysiuIKPuui5wYy4uVG', 'hax', 'or', '1', 'Teacher', 1),
+(34, 'hax1234@wp.plaaaaaaaaaaaaaaaaaaaaaaaa', '$2y$10$XetRZGbR87Q7DBV.L3TaLO5CATE38BXeNjYTSY3RQ2.0UiIz2oPo.', 'hax', 'or', '1', 'Teacher', 1),
 (35, 'rtsadsasad@wda', '$2y$10$yIZBHG5tANOmTcGmSTIZD.dG2UQMvovihD9MpfHjNseN2KTCf8idW', 'hax1', 'or1', '1', 'Teacher', 2),
 (37, 'nauczyciel@gmail.com', '$2y$10$oQl50tZcu0LC2xeqTPYZOO/NJyDFZMEYr42wS3j/Jex41Ul35ShYa', 'sdadasd', 'asdasdasd', '1', 'Teacher', 4),
-(38, 'dyrektor@gmail.com', '$2y$10$nB4fneXoBI0mXmtMi3cezuvGDNcQ.a89abuRZEuVXOPPRPH1qQpGC', 'sdadasd', 'asdasdasd', '1', 'Headmaster', 4),
+(38, 'dyrektor@gmail.com', '$2y$10$nB4fneXoBI0mXmtMi3cezuvGDNcQ.a89abuRZEuVXOPPRPH1qQpGC', 'sdadasd', 'asdasdasd', '1', 'Headmaster', 3),
 (39, '1', '$2y$10$6mxetwtRzRVLVy0jsVicdO4UYPBPkIJP7DwYIJddlOBOwfdmvoMwi', '1', '1', '0', 'Headmaster', 2);
 
 --
@@ -388,6 +418,13 @@ ALTER TABLE `tbl_absence`
   ADD PRIMARY KEY (`absence_id`),
   ADD KEY `tbl_absence_ibfk_1` (`absence_student_id`),
   ADD KEY `tbl_absence_ibfk_2` (`absence_teacher_id`);
+
+--
+-- Indeksy dla tabeli `tbl_announcements`
+--
+ALTER TABLE `tbl_announcements`
+  ADD PRIMARY KEY (`announcement_id`),
+  ADD KEY `announcement_creator_id` (`announcement_creator_id`);
 
 --
 -- Indeksy dla tabeli `tbl_grades`
@@ -470,13 +507,19 @@ ALTER TABLE `tbl_teachers`
 -- AUTO_INCREMENT dla tabeli `tbl_absence`
 --
 ALTER TABLE `tbl_absence`
-  MODIFY `absence_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `absence_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+
+--
+-- AUTO_INCREMENT dla tabeli `tbl_announcements`
+--
+ALTER TABLE `tbl_announcements`
+  MODIFY `announcement_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT dla tabeli `tbl_grades`
 --
 ALTER TABLE `tbl_grades`
-  MODIFY `grade_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `grade_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT dla tabeli `tbl_grades_category`
@@ -542,6 +585,12 @@ ALTER TABLE `tbl_teachers`
 ALTER TABLE `tbl_absence`
   ADD CONSTRAINT `tbl_absence_ibfk_1` FOREIGN KEY (`absence_student_id`) REFERENCES `tbl_students` (`student_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `tbl_absence_ibfk_2` FOREIGN KEY (`absence_teacher_id`) REFERENCES `tbl_teachers` (`teacher_id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
+-- Ograniczenia dla tabeli `tbl_announcements`
+--
+ALTER TABLE `tbl_announcements`
+  ADD CONSTRAINT `tbl_announcements_ibfk_1` FOREIGN KEY (`announcement_creator_id`) REFERENCES `tbl_teachers` (`teacher_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Ograniczenia dla tabeli `tbl_grades`

@@ -15,7 +15,7 @@ class staf_absence_model extends CI_Model{
     }
 
     public function get_all_absence($teacher_id){
-        $this->db->select('ta.absence_id, ta.absence_lesson_number, ta.absence_date, ta.absence_created_at, CONCAT( ts.student_name, " ", ts.student_surname ) AS absence_student');
+        $this->db->select('ta.absence_id, ta.absence_lesson_number, ta.absence_date, ta.absence_is_justified, ta.absence_created_at, CONCAT( ts.student_name, " ", ts.student_surname ) AS absence_student');
         $this->db->from("tbl_absence AS ta");
         $this->db->join('tbl_students AS ts','ts.student_id = ta.absence_student_id', 'left');
         $this->db->where("absence_teacher_id",$teacher_id);
@@ -24,7 +24,7 @@ class staf_absence_model extends CI_Model{
     }
 
     public function get_absence($absence_id){
-        $this->db->select('absence_id, absence_lesson_number, absence_date, absence_student_id', 'left');
+        $this->db->select("*");
         $this->db->from("tbl_absence");
         $this->db->where("absence_id",$absence_id);
         $query = $this->db->get();

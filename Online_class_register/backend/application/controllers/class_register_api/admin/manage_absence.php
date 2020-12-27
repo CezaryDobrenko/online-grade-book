@@ -24,7 +24,7 @@ class manage_absence extends REST_Controller{
         if(manage_absence::tokenAccessValidation("Administrator")){
 
             $data = json_decode(file_get_contents("php://input"));
-            $vfc = isset($data->absence_lesson_number) && isset($data->absence_date)  && isset($data->absence_teacher_id)  && isset($data->absence_student_id);
+            $vfc = isset($data->absence_lesson_number) && isset($data->absence_date) && isset($data->absence_is_justified) && isset($data->absence_teacher_id)  && isset($data->absence_student_id);
             
             if($vfc){  
                 if(!empty($this->manage_absence_model->is_teacher_exists($data->absence_teacher_id))){
@@ -32,6 +32,7 @@ class manage_absence extends REST_Controller{
                         $absence_data = array(
                             "absence_lesson_number" => $data->absence_lesson_number,
                             "absence_date" => $data->absence_date,
+                            "absence_is_justified" => $data->absence_is_justified,
                             "absence_teacher_id" => $data->absence_teacher_id,
                             "absence_student_id" => $data->absence_student_id
                         );
@@ -95,7 +96,7 @@ class manage_absence extends REST_Controller{
         if(manage_absence::tokenAccessValidation("Administrator")){
 
             $data = json_decode(file_get_contents("php://input"));
-            $vfc = isset($data->absence_id) && isset($data->absence_lesson_number) && isset($data->absence_date)  && isset($data->absence_teacher_id)  && isset($data->absence_student_id);
+            $vfc = isset($data->absence_id) && isset($data->absence_lesson_number) && isset($data->absence_date) && isset($data->absence_is_justified) && isset($data->absence_teacher_id)  && isset($data->absence_student_id);
             
             if($vfc){  
                 if(!empty($this->manage_absence_model->is_teacher_exists($data->absence_teacher_id))){
@@ -103,6 +104,7 @@ class manage_absence extends REST_Controller{
                         $absence_data = array(
                             "absence_lesson_number" => $data->absence_lesson_number,
                             "absence_date" => $data->absence_date,
+                            "absence_is_justified" => $data->absence_is_justified,
                             "absence_teacher_id" => $data->absence_teacher_id,
                             "absence_student_id" => $data->absence_student_id
                         );

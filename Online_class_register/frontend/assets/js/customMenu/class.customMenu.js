@@ -6,9 +6,12 @@ class CustomMenu {
 				<h2>Your menu</h2>
 			</header>
 			<ul>
-				<li><a href="/front/site/user/test.html">Check Grades</a></li>
-				<li><a href="/front/site/user/test.html">test user</a></li>
-				<li><a href="/front/site/user/test.html">test user</a></li>
+				<li><a href="/front/site/user/absences/read.html">Preview absences</a></li>
+				<li><a href="/front/site/user/grades/read.html">Preview grades</a></li>
+				<li><a href="/front/site/user/notes/read.html">Preview notes</a></li>
+				<li><a href="/front/site/user/subjects/read.html">Preview subjects</a></li>
+				<li><a href="/front/site/user/groups/read.html">Preview group</a></li>
+				<li><a href="/front/site/user/announcements/read.html">Preview announcements</a></li>
 			</ul>
 		` + this.siteMenu;
 		return menu;
@@ -26,6 +29,8 @@ class CustomMenu {
 				<li><a href="/front/site/teacher/subject/read.html">Your subjects</a></li>
 				<li><a href="/front/site/teacher/group/read.html">Student groups</a></li>
 				<li><a href="/front/site/teacher/student/read.html">Students preview</a></li>
+				<li><a href="/front/site/teacher/announcements/read.html">Announcements</a></li>
+				<li><a href="/front/site/teacher/tutor/read.html">Tutor tasks</a></li>
 			</ul>
 		` + this.siteMenu;
 		return menu;
@@ -41,16 +46,15 @@ class CustomMenu {
 				<li><a href="/front/site/dashboard/student/read.html">Manage students</a></li>
 				<li><a href="/front/site/dashboard/teacher/read.html">Manage teachers</a></li>
 				<li><a href="/front/site/dashboard/parent/read.html">Manage parents</a></li>
-				
 				<li><a href="/front/site/dashboard/absence/read.html">Manage absences</a></li>
 				<li><a href="/front/site/dashboard/group/read.html">Manage groups</a></li>
 				<li><a href="/front/site/dashboard/lesson/read.html">Manage lessons</a></li>
 				<li><a href="/front/site/dashboard/grades/read.html">Manage grades</a></li>
 				<li><a href="/front/site/dashboard/note/read.html">Manage notes</a></li>
 				<li><a href="/front/site/dashboard/subject/read.html">Manage subjects</a></li>
-				
 				<li><a href="/front/site/dashboard/grades_category/read.html">Manage grade category</a></li>
 				<li><a href="/front/site/dashboard/teacher_subjects/read.html">Manage teacher subjects</a></li>
+				<li><a href="/front/site/dashboard/announcements/read.html">Manage announcements</a></li>
 			</ul>
 		` + this.siteMenu;
 		return menu;

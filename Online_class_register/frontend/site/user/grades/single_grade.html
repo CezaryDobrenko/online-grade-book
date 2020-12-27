@@ -7,6 +7,7 @@
 		<link rel="stylesheet" href="/front/assets/css/main.css" />
 		<script src="/front/assets/js/accessPermission/class.accessPermision.js"></script>
 		<script src="/front/assets/js/accessPermission/accessPermisionUser.js"></script>
+		<script src="/front/assets/js/crudDefault/class.crudDefault.js"></script>
 	</head>
 	<body class="is-preload">
 
@@ -19,34 +20,52 @@
 
 							<!-- Header -->
 								<header id="header">
-									<a href="index.html" class="logo"><strong>Online register</strong> perfect solutions for you.</a>
+									<a href="" class="logo"><strong>Online register</strong> perfect solutions for you.</a>
 									<ul class="icons">
 										<li><a href="http://www.facebook.com/" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
 										<li><a href="http://www.snapchat.com/" class="icon brands fa-snapchat-ghost"><span class="label">Snapchat</span></a></li>
 										<li><a href="http://www.instagram.com/" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
 									</ul>
 								</header>
-								Only Student/Parent can see this site
-								
-								
-								
-								
-								<script>
-
-								fetch("http://127.0.0.1/dashboard/backend/index.php/class_register_api/user/personal_note/read_note", {
-								  headers: {
-									Authorization: JSON.parse(localStorage.getItem("login")).token,
-									"Content-Type": "application/json"
-								  }
-								})
-								.then(res => res.json())
-								.then(data => { console.log(data) })
-								.catch(err => { console.log(err) })
-
-								</script>
-								
-								
-								
+							
+							<!-- Content -->
+								<section>
+									<div class="row">
+										<div class="col-4 col-12-medium"></div>
+										<div class="col-4 col-12-medium">
+										
+											<!-- Definition -->
+											<header class="major">
+												<h2>Grade Details:</h2>
+											</header>
+											
+												<!-- Form -->
+												<div class="row gtr-uniform">
+												
+													<!-- Details -->
+													<section>
+														<p id = "val">Value: </p>
+														<p id = "wei">Weight: </p>
+														<p id = "com">Comment: </p>
+														<p id = "cre">Created at: </p>
+														<p id = "sem">Semester: </p>
+														<p id = "cat">Category: </p>
+														<p id = "sub">Subject: </p>
+														<p id = "tec">Teacher: </p>
+													</section>
+													
+													<!-- Break -->
+													<div class="col-12">
+														<ul class="actions fit">
+															<li><a href="http://127.0.0.1/front/site/user/grades/read.html" class="button primary fit">Back</a></li>
+														</ul>
+													</div>
+												</div>
+											
+										</div>
+										<div class="col-4 col-12-medium"></div>
+									</div>
+								</section>
 								
 						</div>
 					</div>
@@ -106,7 +125,7 @@
 
 			</div>
 
-		<!-- Libs -->
+		<!-- Scripts -->
 			<script src="/front/assets/js/jquery.min.js"></script>
 			<script src="/front/assets/js/browser.min.js"></script>
 			<script src="/front/assets/js/breakpoints.min.js"></script>
@@ -114,5 +133,11 @@
 			<script src="/front/assets/js/main.js"></script>
 			<script src="/front/assets/js/customMenu/class.customMenu.js"></script>
 			<script src="/front/assets/js/customMenu/customMenu.js"></script>
+			<script>
+				const url = new URL(window.location.href);
+				const id = url.searchParams.get("id");
+				const path = "http://127.0.0.1/dashboard/backend/index.php/class_register_api/user/personal_grade/read_single_grade?id="+id;
+			</script>
+		<script src="/front/assets/js/crudDefault/details.js"></script>
 	</body>
 </html>

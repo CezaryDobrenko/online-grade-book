@@ -42,7 +42,7 @@ Currently api have 4 permission levels:
 level 3: "Administrator" grant access to administrator endpoints and bellow
 level 2: "Headmaster" or "Teacher" grant access to teacher endpoints and bellow
 level 1: "Parent" or "Student" grant access to user endpoints and bellow
-level 0: Every unlogged user are granted access to login endpoints
+level 0: Every unlogged user are granted access to login and open endpoints
 
 
 ===================================================
@@ -75,6 +75,12 @@ V - READ		reference_link(APPATCH/backend/index.php/class_register_api/admin/mana
 V - READ SINGLE		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_grades_category/read_single_grades_category)	method(GET)		
 V - UPDATE		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_grades_category/update_grades_category)	method(PUT)		
 V - DELETE		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_grades_category/delete_grades_category)	method(DELETE)		
+manage_grades_category:
+V - CREATE 		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_announcement/create_announcement)		method(POST)		
+V - READ		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_announcement/read_announcements)		method(GET)		
+V - READ SINGLE		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_announcement/read_single_announcement)		method(GET)		
+V - UPDATE		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_announcement/update_announcement)		method(PUT)		
+V - DELETE		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_announcement/delete_announcement)		method(DELETE)		
 manage_group:
 V - CREATE		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_group/create_group)				method(POST)		
 V - READ		reference_link(APPATCH/backend/index.php/class_register_api/admin/manage_group/read_group)				method(GET)		
@@ -155,6 +161,18 @@ V - READ		reference_link(APPATCH/backend/index.php/class_register_api/teacher/st
 V - READ SINGLE		reference_link(APPATCH/backend/index.php/class_register_api/teacher/staf_note/read_single_note)				method(GET)		
 V - UPDATE		reference_link(APPATCH/backend/index.php/class_register_api/teacher/staf_note/update_note)				method(PUT)		
 V - DELETE		reference_link(APPATCH/backend/index.php/class_register_api/teacher/staf_note/delete_note)				method(DELETE)	
+staf_tutor:
+V - CREATE		reference_link(APPATCH/backend/index.php/class_register_api/teacher/staf_tutor/create_tutor)				method(POST)		
+V - READ		reference_link(APPATCH/backend/index.php/class_register_api/teacher/staf_tutor/read_tutor)				method(GET)		
+V - READ SINGLE		reference_link(APPATCH/backend/index.php/class_register_api/teacher/staf_tutor/read_single_tutor)			method(GET)		
+V - UPDATE		reference_link(APPATCH/backend/index.php/class_register_api/teacher/staf_tutor/update_tutor)				method(PUT)		
+V - DELETE		reference_link(APPATCH/backend/index.php/class_register_api/teacher/staf_tutor/delete_tutor)				method(DELETE)	
+staf_announcement:
+V - CREATE		reference_link(APPATCH/backend/index.php/class_register_api/teacher/staf_announcement/create_announcement)		method(POST)		
+V - READ		reference_link(APPATCH/backend/index.php/class_register_api/teacher/staf_announcement/read_announcements)		method(GET)		
+V - READ SINGLE		reference_link(APPATCH/backend/index.php/class_register_api/teacher/staf_announcement/read_single_announcement)		method(GET)		
+V - UPDATE		reference_link(APPATCH/backend/index.php/class_register_api/teacher/staf_announcement/update_announcement)		method(PUT)		
+V - DELETE		reference_link(APPATCH/backend/index.php/class_register_api/teacher/staf_announcement/delete_announcement)		method(DELETE)	
 staf_subject:
 V - READ		reference_link(APPATCH/backend/index.php/class_register_api/teacher/staf_subject/read_subject)				method(GET)		
 staf_group:
@@ -178,15 +196,17 @@ Reporting any issues or mistakes to teacher/headmaster/administrator
 
 personal_subject:
 V - READ		reference_link(APPATCH/backend/index.php/class_register_api/user/personal_subject/read_subject)				method(GET)
+personal_group:
+V - READ		reference_link(APPATCH/backend/index.php/class_register_api/user/personal_group/read_group)				method(GET)
+personal_absence:
+V - READ		reference_link(APPATCH/backend/index.php/class_register_api/user/personal_absence/read_absence)				method(GET)
+personal_note:
+V - READ		reference_link(APPATCH/backend/index.php/class_register_api/user/personal_note/read_note)				method(GET)
 personal_grade:
 V - READ		reference_link(APPATCH/backend/index.php/class_register_api/user/personal_grade/read_grade)				method(GET)
 V - READ SINGLE		reference_link(APPATCH/backend/index.php/class_register_api/user/personal_grade/read_single_grade)			method(GET)
-personal_absence:
-V - READ		reference_link(APPATCH/backend/index.php/class_register_api/user/personal_absence/read_absence)				method(GET)
-V - READ SINGLE		reference_link(APPATCH/backend/index.php/class_register_api/user/personal_absence/read_single_absence)			method(GET)
-personal_note:
-V - READ		reference_link(APPATCH/backend/index.php/class_register_api/user/personal_note/read_note)				method(GET)
-V - READ SINGLE		reference_link(APPATCH/backend/index.php/class_register_api/user/personal_note/read_single_note)			method(GET)
+personal_announcement:
+V - READ		reference_link(APPATCH/backend/index.php/class_register_api/user/personal_announcement/read_announcement)		method(GET)
 
 =======================================
 Login endpoints
@@ -205,4 +225,22 @@ V - LOGIN		reference_link(APPATCH/backend/index.php/class_register_api/login/stu
 teacher_login	
 V - LOGIN		reference_link(APPATCH/backend/index.php/class_register_api/login/teacher_login/teacher_login)				method(GET)	
 
+=======================================
+Open endpoints
+
+Requirements:
+permision level: 0
+
+Purpose:
+Provide data from external systems/services.
+=======================================
+
+open_subject
+V - read_subjects	reference_link(APPATCH/backend/index.php/class_register_api/open/open_subject/read_subjects)				method(GET)	
+open_group
+V - read_groups		reference_link(APPATCH/backend/index.php/class_register_api/open/open_group/read_groups)				method(GET)	
+open_category	
+V - read_categories	reference_link(APPATCH/backend/index.php/class_register_api/open/open_category/read_categories)				method(GET)	
+open_grade	
+V - read_grades		reference_link(APPATCH/backend/index.php/class_register_api/open/open_grade/read_grades)				method(GET)	
 

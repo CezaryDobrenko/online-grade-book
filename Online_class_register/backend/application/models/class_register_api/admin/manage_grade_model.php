@@ -16,7 +16,7 @@ class manage_grade_model extends CI_Model{
     }
 
     public function get_all_grades(){
-        $this->db->select("a.grade_id, a.grade_value, a.grade_comment, a.grade_created_at, a.grade_semester, b.grade_category_name, d.student_email, c.teacher_email, e.subject_name");
+        $this->db->select("a.grade_id, a.grade_value, a.grade_comment, a.grade_created_at, a.grade_semester, a.grade_kind, b.grade_category_name, d.student_email, c.teacher_email, e.subject_name");
         $this->db->from("tbl_grades as a");
 		$this->db->join('tbl_grades_category as b', 'a.grade_category_id = b.grade_category_id', 'left');
 		$this->db->join('tbl_teachers as c', 'grade_teacher_id = teacher_id', 'left');
@@ -61,7 +61,30 @@ class manage_grade_model extends CI_Model{
         $query = $this->db->get();
         return $query->row();
     }
-
+	
+	public function is_final_or_middle_unique_u($student_id, $grade_kind, $subject_id, $grade_id, $semester){
+        $this->db->select("*");
+        $this->db->from("tbl_grades");
+        $this->db->where("grade_student_id",$student_id);
+        $this->db->where("grade_kind",$grade_kind);
+        $this->db->where("grade_subject_id",$subject_id);
+        $this->db->where("grade_semester",$semester);
+        $this->db->where("grade_id !=",$grade_id);
+        $query = $this->db->get();
+        return $query->row();
+    }
+	
+	public function is_final_or_middle_unique_c($student_id, $grade_kind, $subject_id, $semester){
+        $this->db->select("*");
+        $this->db->from("tbl_grades");
+        $this->db->where("grade_student_id",$student_id);
+        $this->db->where("grade_kind",$grade_kind);
+        $this->db->where("grade_subject_id",$subject_id);
+        $this->db->where("grade_semester",$semester);
+        $query = $this->db->get();
+        return $query->row();
+    }
+	
     public function is_student_exists($student_id){
         $this->db->select("*");
         $this->db->from("tbl_students");
